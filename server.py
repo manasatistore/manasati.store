@@ -5,10 +5,33 @@ from werkzeug.security import generate_password_hash, check_password_hash
 import jwt
 import datetime
 import os
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 import sqlite3
 
 app = Flask(__name__)
+# ================================
+# FRONTEND ROUTES
+# ================================
+
+@app.route("/")
+def home():
+    return send_from_directory(".", "index.html")
+
+
+@app.route("/app.js")
+def app_js():
+    return send_from_directory(".", "app.js")
+
+
+@app.route("/styles.css")
+def styles_css():
+    return send_from_directory(".", "styles.css")
+
+
+@app.route("/<path:path>")
+def static_files(path):
+    return send_from_directory(".", path)
 CORS(app)
 
 SECRET_KEY = "manasati_super_secret_jwt_key_2026"
@@ -67,7 +90,7 @@ class SQLiteConnWrapper:
         self.conn.close()
 
 def init_sqlite_db():
-    conn = sqlite3.connect('manasati.db')
+    conn = sqlite3.connect(os.path.join(BASE_DIR, "manasati.db"))
     cursor = conn.cursor()
     
     cursor.execute("""
@@ -160,7 +183,7 @@ def get_db():
         return conn
     except Exception:
         init_sqlite_db()
-        sq_conn = sqlite3.connect('manasati.db')
+        sq_conn = sqlite3.connect(os.path.join(BASE_DIR, "manasati.db"))
         sq_conn.row_factory = sqlite3.Row
         return SQLiteConnWrapper(sq_conn)
 
@@ -513,6 +536,7 @@ def get_my_orders():
     return jsonify({'success': True, 'orders': orders}), 200
 
 
-if __name__ == '__main__':
-    print("Starting Manasati Store WAMP MySQL API Server on port 5005...")
-    app.run(host='0.0.0.0', port=5005, debug=True)
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 8080))
+    print(f"Starting Manasati Store on port {port}")
+    app.run(host="0.0.0.0", port=port)
