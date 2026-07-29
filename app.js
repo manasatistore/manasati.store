@@ -5,7 +5,10 @@
    Strict Role Guarding & Live Admin Orders Management
    ========================================================================== */
 
-const API_BASE_URL = 'http://localhost:5005/api';
+const API_BASE_URL = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
+  ? 'http://localhost:5005/api'
+  : 'https://manasatistore-production.up.railway.app/api';
+
 
 const INITIAL_SERVICES = [
   {
@@ -67,15 +70,15 @@ class ManasatiApp {
     this.services = INITIAL_SERVICES;
     this.authToken = localStorage.getItem("manasati_token") || null;
     this.currentUser = this.loadFromStorage("manasati_user", null);
-    
+
     this.cart = this.loadFromStorage(this.getCartStorageKey(), []);
     this.orders = this.loadFromStorage("manasati_orders", []);
-    
+
     this.currentRole = 'user'; // 'user' or 'admin'
     this.activeCategory = 'all';
     this.searchQuery = '';
     this.sortBy = 'popular';
-    
+
     this.initElements();
     this.bindEvents();
     this.updateAuthUI();
@@ -266,7 +269,7 @@ class ManasatiApp {
       if (this.loggedOutActions) this.loggedOutActions.style.display = "none";
       if (this.loggedUserInfo) this.loggedUserInfo.style.display = "flex";
       if (this.userDisplayName) this.userDisplayName.textContent = this.currentUser.name;
-      
+
       if (this.userRoleBadge) {
         if (this.currentUser.role === 'admin') {
           this.userRoleBadge.textContent = "مسؤول (Admin)";
@@ -372,7 +375,7 @@ class ManasatiApp {
       }
     } catch (err) {
       console.error("Login network error:", err);
-      this.showToast("عذراً، فشل الاتصال بخادم WAMP MySQL", "error");
+      this.showToast("عذراً، فشل الاتصال بخادم المتجر السحابي", "error");
     }
   }
 
@@ -415,7 +418,7 @@ class ManasatiApp {
       }
     } catch (err) {
       console.error("Register network error:", err);
-      this.showToast("فشل الاتصال بخادم WAMP MySQL أثناء التسجيل", "error");
+      this.showToast("فشل الاتصال بخادم المتجر السحابي أثناء التسجيل", "error");
     }
   }
 
@@ -479,7 +482,7 @@ class ManasatiApp {
     this.activeCategory = 'all';
     if (this.searchInput) this.searchInput.value = '';
     if (this.clearSearchBtn) this.clearSearchBtn.style.display = 'none';
-    
+
     document.querySelectorAll(".cat-pill").forEach(p => {
       p.classList.toggle("active", p.getAttribute("data-category") === 'all');
     });
@@ -491,7 +494,7 @@ class ManasatiApp {
   renderServices() {
     let filtered = this.services.filter(srv => {
       const matchCat = this.activeCategory === 'all' || srv.category === this.activeCategory;
-      const matchQuery = !this.searchQuery || 
+      const matchQuery = !this.searchQuery ||
         srv.title.toLowerCase().includes(this.searchQuery) ||
         (srv.description && srv.description.toLowerCase().includes(this.searchQuery)) ||
         (srv.badge && srv.badge.toLowerCase().includes(this.searchQuery));
@@ -825,7 +828,7 @@ class ManasatiApp {
     // Show Receipt Modal
     document.getElementById("receipt-order-id").textContent = `#${serverOrderCode}`;
     document.getElementById("receipt-code").textContent = `ACT-${serverOrderCode}-OK`;
-    
+
     const waText = encodeURIComponent(`مرحباً متجر منصتي 👋\nأود تفعيل طلبي رقم: #${serverOrderCode}\nالاسم: ${custName}\nالمبلغ: ${totalPrice} ر.س`);
     document.getElementById("whatsapp-order-link").href = `https://wa.me/967730688720?text=${waText}`;
 
@@ -958,7 +961,7 @@ class ManasatiApp {
     const items = order.items || [];
 
     if (codeTitle) codeTitle.textContent = `#${code}`;
-    
+
     if (waBtn) {
       const waMsg = encodeURIComponent(`مرحباً ${name} 👋\nنحسب أنك قمت بطلب رقم: #${code} من متجر منصتي\nالمبلغ: ${total} ر.س\nيرجى تأكيد طلبك لاستلام كود التفعيل.`);
       waBtn.href = `https://wa.me/${phone.replace(/[^0-9]/g, '')}?text=${waMsg}`;
@@ -1170,7 +1173,7 @@ class ManasatiApp {
 
     const toast = document.createElement("div");
     toast.className = `toast toast-${type}`;
-    
+
     let iconClass = "fa-circle-info";
     if (type === "success") iconClass = "fa-circle-check";
     if (type === "error") iconClass = "fa-triangle-exclamation";
