@@ -1,28 +1,37 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>منصتي | Manasati Store - متجر الاشتراكات الرقمية المتكامل</title>
-  <meta name="description" content="متجر منصتي لبيع الاشتراكات الرقمية الفاخرة: نتفليكس، شاهد VIP، يوتيوب بريميوم، أدوات الذكاء الاصطناعي والألعاب بأسعار منافسة وتسليم فوري.">
-  
-  <!-- Google Fonts: Cairo & Outfit -->
+  <meta name="description"
+    content="متجر منصتي لبيع الاشتراكات الرقمية الفاخرة: نتفليكس، شاهد VIP، يوتيوب بريميوم، أدوات الذكاء الاصطناعي والألعاب بأسعار منافسة وتسليم فوري.">
+
+  <!-- FontAwesome Icons (Dual Reliable CDNs) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
-  
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&family=Outfit:wght@400;600;700&display=swap"
+    rel="stylesheet">
+
   <!-- FontAwesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-  
+
   <!-- Stylesheet -->
   <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
 
   <!-- Top Announcement Bar -->
   <div class="announcement-bar">
     <div class="container announcement-content">
-      <span><i class="fa-solid fa-fire text-amber"></i> عروض حصريّة بمناسبة الإطلاق 🔥 خصومات تصل إلى 40% على كافة الاشتراكات الرقمية</span>
+      <span><i class="fa-solid fa-fire text-amber"></i> عروض حصريّة بمناسبة الإطلاق 🔥 خصومات تصل إلى 40% على كافة
+        الاشتراكات الرقمية</span>
       <span class="announcement-badge"><i class="fa-solid fa-bolt"></i> تسليم آلي فوري 24/7</span>
     </div>
   </div>
@@ -33,7 +42,7 @@
       <!-- Store Brand Logo -->
       <a href="#" class="brand-logo" id="brand-logo-btn">
         <div class="logo-icon-wrapper">
-          <i class="fa-solid fa-layer-group logo-icon"></i>
+          <img src="logo.jpg" alt="منصتي | Manasati Store" class="brand-logo-img">
         </div>
         <div class="logo-text">
           <span class="brand-name">منصـتي</span>
@@ -44,8 +53,10 @@
       <!-- Search Input Bar -->
       <div class="header-search">
         <i class="fa-solid fa-magnifying-glass search-icon"></i>
-        <input type="text" id="search-input" placeholder="ابحث عن اشتراك (نتفليكس، شاهد، ChatGPT، كانفا...)" autocomplete="off">
-        <button class="clear-search-btn" id="clear-search-btn" style="display: none;"><i class="fa-solid fa-xmark"></i></button>
+        <input type="text" id="search-input" placeholder="ابحث عن اشتراك (نتفليكس، شاهد، ChatGPT، كانفا...)"
+          autocomplete="off">
+        <button class="clear-search-btn" id="clear-search-btn" style="display: none;"><i
+            class="fa-solid fa-xmark"></i></button>
       </div>
 
       <!-- Navigation Actions & Cart -->
@@ -63,7 +74,8 @@
           <div id="logged-user-info" class="logged-user-info" style="display: none; align-items: center; gap: 8px;">
             <span class="user-name-label" id="user-display-name">المستخدم</span>
             <span class="user-role-badge" id="user-role-badge">مشترك</span>
-            <button class="btn btn-outline-danger btn-sm logout-btn" title="تسجيل الخروج والرجوع كزائر" onclick="app.logout()">
+            <button class="btn btn-outline-danger btn-sm logout-btn" title="تسجيل الخروج والرجوع كزائر"
+              onclick="app.logout()">
               <i class="fa-solid fa-right-from-bracket"></i> تسجيل الخروج
             </button>
           </div>
@@ -94,7 +106,7 @@
 
   <!-- STOREFRONT VIEW (CUSTOMER MODE) -->
   <main id="storefront-view" class="view-section active">
-    
+
     <!-- Hero Banner Section -->
     <section class="hero-section">
       <div class="container">
@@ -107,9 +119,10 @@
             <span class="gradient-text">بأفضل الأسعار والتسليم الفوري</span>
           </h1>
           <p class="hero-description">
-            منصة "منصتي" توفر لك أفضل خدمات الاشتراكات الرقمية للترفيه، أدوات الذكاء الاصطناعي، التصميم، الألعاب والرياضة بتفعيل رسمي ومضمون طول فترة الاشتراك.
+            منصة "منصتي" توفر لك أفضل خدمات الاشتراكات الرقمية للترفيه، أدوات الذكاء الاصطناعي، التصميم، الألعاب
+            والرياضة بتفعيل رسمي ومضمون طول فترة الاشتراك.
           </p>
-          
+
           <!-- Hero Quick Highlights -->
           <div class="hero-highlights">
             <div class="highlight-item">
@@ -171,7 +184,7 @@
           <h2 class="section-heading" id="catalog-title">جميع الاشتراكات المتاحة</h2>
           <span class="count-badge" id="services-count">8 خدمات</span>
         </div>
-        
+
         <div class="controls-sort">
           <label for="sort-select"><i class="fa-solid fa-arrow-down-short-wide"></i> ترتيب بحسب:</label>
           <select id="sort-select" onchange="app.handleSortChange(this.value)">
@@ -233,8 +246,10 @@
         </div>
         <div class="reviews-grid">
           <div class="review-card">
-            <div class="stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
-            <p>"سرعة تفعيل خيالية! اشتريت حساب شاهد VIP ومع الرياضية ووصلتني البيانات خلال دقيقتين فقط. متجر منصتي خياري الأول دائماً."</p>
+            <div class="stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
+                class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+            <p>"سرعة تفعيل خيالية! اشتريت حساب شاهد VIP ومع الرياضية ووصلتني البيانات خلال دقيقتين فقط. متجر منصتي خياري
+              الأول دائماً."</p>
             <div class="reviewer">
               <div class="reviewer-avatar">م</div>
               <div>
@@ -244,8 +259,10 @@
             </div>
           </div>
           <div class="review-card">
-            <div class="stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
-            <p>"سعر اشتراك يوتيوب بريميوم عندهم رخيص جداً مقارنة بالسوق والتفعيل صار على إيميلي الشخصي بدون أي مشاكل. شكراً لكم!"</p>
+            <div class="stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
+                class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+            <p>"سعر اشتراك يوتيوب بريميوم عندهم رخيص جداً مقارنة بالسوق والتفعيل صار على إيميلي الشخصي بدون أي مشاكل.
+              شكراً لكم!"</p>
             <div class="reviewer">
               <div class="reviewer-avatar">س</div>
               <div>
@@ -255,8 +272,10 @@
             </div>
           </div>
           <div class="review-card">
-            <div class="stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
-            <p>"اشتراك ChatGPT Plus شغال 100% والدعم الفني بالواتس تعاملهم راقي جداً وردوا علي في منتصف الليل لتوضيح طريقة الدخول."</p>
+            <div class="stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
+                class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+            <p>"اشتراك ChatGPT Plus شغال 100% والدعم الفني بالواتس تعاملهم راقي جداً وردوا علي في منتصف الليل لتوضيح
+              طريقة الدخول."</p>
             <div class="reviewer">
               <div class="reviewer-avatar">ف</div>
               <div>
@@ -267,82 +286,93 @@
           </div>
         </div>
       </div>
-    <!-- FOOTER SECTION (CUSTOMER STORE FRONT ONLY) -->
-    <footer class="main-footer">
-      <div class="container footer-content">
-        <div class="footer-brand">
-          <div class="brand-logo">
-            <div class="logo-icon-wrapper"><i class="fa-solid fa-layer-group logo-icon"></i></div>
-            <span class="brand-name">منصـتي</span>
+      <!-- FOOTER SECTION (CUSTOMER STORE FRONT ONLY) -->
+      <footer class="main-footer">
+        <div class="container footer-content">
+          <div class="footer-brand">
+            <div class="brand-logo">
+              <div class="logo-icon-wrapper">
+                <img src="logo.jpg" alt="منصتي | Manasati Store" class="brand-logo-img">
+              </div>
+              <span class="brand-name">منصـتي</span>
+            </div>
+            <p>متجرك المتكامل للااشتراكات الرقمية والخدمات الترفيهية والتطبيقات بأقل الأسعار وأعلى ضمان.</p>
           </div>
-          <p>متجرك المتكامل للااشتراكات الرقمية والخدمات الترفيهية والتطبيقات بأقل الأسعار وأعلى ضمان.</p>
-        </div>
-        <div class="footer-links">
-          <h4>روابط سريعة</h4>
-          <ul>
-            <li><a href="#" onclick="app.filterCategory('entertainment')">اشتراكات الترفيه</a></li>
-            <li><a href="#" onclick="app.filterCategory('ai')">الذكاء الاصطناعي والتصميم</a></li>
-            <li><a href="#" onclick="app.filterCategory('gaming')">اشتراكات الألعاب</a></li>
-            <li><a href="#" onclick="app.filterCategory('sports')">البث الرياضي المباشر</a></li>
-          </ul>
-        </div>
-        <div class="footer-contact">
-          <h4><i class="fa-solid fa-headset text-cyan"></i> تواصل معنا مباشرة</h4>
-          <div class="footer-social-buttons">
-            <a href="https://wa.me/967730688720" target="_blank" class="social-btn whatsapp-btn" title="تواصل مباشرة عبر الواتساب">
-              <div class="social-icon"><i class="fa-brands fa-whatsapp"></i></div>
-              <div class="social-text">
-                <span class="social-title">واتساب الدعم الفني</span>
-                <span class="social-sub">+967 730 688 720</span>
-              </div>
-            </a>
-
-            <a href="tel:+967730688720" class="social-btn phone-btn" title="اتصال هاتفي مباشر">
-              <div class="social-icon"><i class="fa-solid fa-phone-flip"></i></div>
-              <div class="social-text">
-                <span class="social-title">الاتصال الهاتفي</span>
-                <span class="social-sub">+967 730 688 720</span>
-              </div>
-            </a>
-
-            <a href="https://instagram.com/manasati.store" target="_blank" class="social-btn instagram-btn" title="حساب إنستغرام المتجر">
-              <div class="social-icon"><i class="fa-brands fa-instagram"></i></div>
-              <div class="social-text">
-                <span class="social-title">حساب إنستغرام</span>
-                <span class="social-sub">manasati.store@</span>
-              </div>
-            </a>
-
-            <a href="mailto:support@mansati.online" class="social-btn email-btn" title="البريد الإلكتروني">
-              <div class="social-icon"><i class="fa-solid fa-envelope"></i></div>
-              <div class="social-text">
-                <span class="social-title">البريد الإلكتروني</span>
-                <span class="social-sub">support@mansati.online</span>
-              </div>
-            </a>
+          <div class="footer-links">
+            <h4>روابط سريعة</h4>
+            <ul>
+              <li><a href="#" onclick="app.filterCategory('entertainment')">اشتراكات الترفيه</a></li>
+              <li><a href="#" onclick="app.filterCategory('ai')">الذكاء الاصطناعي والتصميم</a></li>
+              <li><a href="#" onclick="app.filterCategory('gaming')">اشتراكات الألعاب</a></li>
+              <li><a href="#" onclick="app.filterCategory('sports')">البث الرياضي المباشر</a></li>
+            </ul>
           </div>
-          <p class="working-hours"><i class="fa-solid fa-circle-check text-green"></i> الدعم متواجد 24 ساعة طوال الأسبوع</p>
-        </div>
-      </div>
-      <div class="footer-bottom">
-        <div class="container footer-bottom-flex">
-          <p>جميع الحقوق محفوظة © 2026 لـ متجر منصتي | Manasati Store</p>
-          <div class="payment-methods">
-            <span class="pay-tag"><i class="fa-solid fa-building-columns text-green"></i> حاسب / الكريمي</span>
-            <span class="pay-tag"><i class="fa-solid fa-wallet text-purple"></i> المحافظ الإلكترونية</span>
-            <span class="pay-tag"><i class="fa-solid fa-mobile-screen text-cyan"></i> جيب / جوالي</span>
-            <span class="pay-tag"><i class="fa-solid fa-money-bill-transfer text-amber"></i> وان كاش / كاش / فلوسك</span>
+          <div class="footer-contact">
+            <h4><i class="fa-solid fa-headset text-cyan"></i> تواصل معنا مباشرة</h4>
+            <div class="footer-social-buttons">
+              <a href="https://wa.me/967730688720" target="_blank" class="social-btn whatsapp-btn"
+                title="تواصل عبر الواتساب">
+                <div class="social-icon">
+                  <i class="fa-brands fa-whatsapp"></i>
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                    <path
+                      d="M12.012 2c-5.506 0-9.989 4.478-9.99 9.984 0 1.763.459 3.486 1.332 5.004l-1.354 4.954 5.074-1.331c1.464.798 3.116 1.218 4.794 1.218 5.508 0 9.991-4.478 9.992-9.984 0-2.668-1.039-5.176-2.927-7.062a9.923 9.923 0 0 0-6.921-2.783zm5.72 14.195c-.244.688-1.428 1.312-1.968 1.393-.54.081-1.229.117-3.953-.984-2.825-1.144-4.636-4.004-4.776-4.192-.14-.188-1.144-1.523-1.144-2.906 0-1.383.722-2.062.984-2.344.262-.282.571-.352.761-.352.19 0 .381.002.545.01.173.008.406-.066.635.484.244.587.828 2.02.9 2.167.072.148.118.322.024.512-.095.19-.143.308-.286.475-.143.168-.3.376-.429.504-.143.143-.292.3-.125.587.167.287.742 1.225 1.593 1.983 1.096.976 2.02 1.278 2.308 1.42.287.143.453.119.619-.071.167-.19.714-.833.905-1.119.19-.286.381-.238.643-.143.262.095 1.666.786 1.952.929.286.143.476.214.547.333.072.12.072.69-.172 1.378z" />
+                  </svg>
+                </div>
+                <div class="social-text">
+                  <span class="social-title">الواتساب</span>
+                  <span class="social-sub">+967 730 688 720</span>
+                </div>
+              </a>
+
+              <a href="tel:+967730688720" class="social-btn phone-btn" title="اتصال هاتفي مباشر">
+                <div class="social-icon"><i class="fa-solid fa-phone-flip"></i></div>
+                <div class="social-text">
+                  <span class="social-title">الاتصال</span>
+                  <span class="social-sub">+967 730 688 720</span>
+                </div>
+              </a>
+
+              <a href="https://instagram.com/manasati.store" target="_blank" class="social-btn instagram-btn"
+                title="حساب إنستغرام المتجر">
+                <div class="social-icon"><i class="fa-brands fa-instagram"></i></div>
+                <div class="social-text">
+                  <span class="social-title">إنستغرام</span>
+                  <span class="social-sub">@manasati.store</span>
+                </div>
+              </a>
+
+              <a href="mailto:support@mansati.online" class="social-btn email-btn" title="البريد الإلكتروني">
+                <div class="social-icon"><i class="fa-solid fa-envelope"></i></div>
+                <div class="social-text">
+                  <span class="social-title">الإيميل</span>
+                  <span class="social-sub">support@mansati</span>
+                </div>
+              </a>
+            </div>
+            <p class="working-hours"><i class="fa-solid fa-circle-check text-green"></i> الدعم متواجد 24 ساعة طوال
+              الأسبوع</p>
           </div>
         </div>
-      </div>
-    </footer>
+        <div class="footer-bottom">
+          <div class="container footer-bottom-flex">
+            <p>جميع الحقوق محفوظة © 2026 لـ متجر منصتي | Manasati Store</p>
+            <div class="payment-methods">
+              <span class="pay-tag kuraimi-pay"><i class="fa-solid fa-building-columns"></i> حاسب / الكريمي</span>
+              <span class="pay-tag ewallet-pay"><i class="fa-solid fa-qrcode"></i> المحافظ الإلكترونية</span>
+              <span class="pay-tag mobile-pay"><i class="fa-solid fa-mobile-screen-button"></i> جيب / جوالي</span>
+              <span class="pay-tag cash-pay"><i class="fa-solid fa-money-bill-wave"></i> وان كاش / كاش / فلوسك</span>
+            </div>
+          </div>
+        </div>
+      </footer>
 
   </main>
 
   <!-- ADMIN DASHBOARD VIEW (ADMIN MODE) -->
   <main id="admin-view" class="view-section" style="display: none;">
     <div class="container">
-      
+
       <!-- Admin Top Header Bar -->
       <div class="admin-header-card">
         <div class="admin-title-area">
@@ -395,7 +425,8 @@
           <h3>قائمة الخدمات المتاحة للبيع</h3>
           <div class="admin-search-box">
             <i class="fa-solid fa-magnifying-glass"></i>
-            <input type="text" id="admin-search-input" placeholder="تصفية الخدمات بالاسم..." oninput="app.filterAdminTable(this.value)">
+            <input type="text" id="admin-search-input" placeholder="تصفية الخدمات بالاسم..."
+              oninput="app.filterAdminTable(this.value)">
           </div>
         </div>
 
@@ -448,8 +479,10 @@
       </div>
 
       <!-- Admin Mini Footer -->
-      <div class="admin-mini-footer" style="margin-top:40px; padding:20px 0; border-top:1px solid var(--border-color); text-align:center; color:var(--text-muted); font-size:13px;">
-        <i class="fa-solid fa-user-shield text-cyan"></i> لوحة التحكم والإدارة لمتجر "منصتي" © 2026 | حماية ونظام إدارة متكامل
+      <div class="admin-mini-footer"
+        style="margin-top:40px; padding:20px 0; border-top:1px solid var(--border-color); text-align:center; color:var(--text-muted); font-size:13px;">
+        <i class="fa-solid fa-user-shield text-cyan"></i> لوحة التحكم والإدارة لمتجر "منصتي" © 2026 | حماية ونظام إدارة
+        متكامل
       </div>
 
     </div>
@@ -513,7 +546,8 @@
 
           <div class="form-group full-width">
             <label for="form-description">تفاصيل وشروط الاشتراك <span class="required">*</span></label>
-            <textarea id="form-description" rows="4" placeholder="اكتب وصفاً مفصلاً وشروط الضمان وآلية التفعيل..." required></textarea>
+            <textarea id="form-description" rows="4" placeholder="اكتب وصفاً مفصلاً وشروط الضمان وآلية التفعيل..."
+              required></textarea>
           </div>
         </div>
 
@@ -575,7 +609,7 @@
             <label for="cust-name">اسمك الكريم <span class="required">*</span></label>
             <input type="text" id="cust-name" placeholder="أدخل اسمك الثلاثي" required>
           </div>
-          
+
           <div class="form-group full-width">
             <label for="cust-phone">رقم الجوال / الواتساب <span class="required">*</span></label>
             <input type="tel" id="cust-phone" placeholder="0500000000" required>
@@ -635,7 +669,8 @@
 
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" onclick="app.closeCheckout()">تراجع</button>
-          <button type="submit" class="btn btn-success btn-block"><i class="fa-solid fa-check-circle"></i> تأكيد الطلب واستلام الاشتراك</button>
+          <button type="submit" class="btn btn-success btn-block"><i class="fa-solid fa-check-circle"></i> تأكيد الطلب
+            واستلام الاشتراك</button>
         </div>
       </form>
     </div>
@@ -649,11 +684,12 @@
       </div>
       <h2>تم استلام طلبك بنجاح! 🎉</h2>
       <p class="text-muted">رقم الطلب الخاص بك: <strong id="receipt-order-id" class="text-cyan">#MN-1001</strong></p>
-      
+
       <div class="receipt-details-box">
         <p><i class="fa-solid fa-bolt text-amber"></i> يرجى الاحتفاظ بكود التفعيل السريع للطلب:</p>
         <div class="activation-code-box" id="receipt-code">MN-7842-X9</div>
-        <p class="text-sm text-muted margin-top-sm">تم إرسال نسخة من الفاتورة وبيانات الاشتراك عبر الواتساب والبريد الإلكتروني المدخل.</p>
+        <p class="text-sm text-muted margin-top-sm">تم إرسال نسخة من الفاتورة وبيانات الاشتراك عبر الواتساب والبريد
+          الإلكتروني المدخل.</p>
       </div>
 
       <div class="modal-footer justify-center">
@@ -675,10 +711,12 @@
 
       <!-- Auth Mode Switch Tabs -->
       <div class="auth-tabs-row" style="display: flex; gap: 8px; margin-bottom: 16px;">
-        <button type="button" class="btn btn-outline-primary active" id="tab-login-btn" onclick="app.switchAuthTab('login')" style="flex: 1;">
+        <button type="button" class="btn btn-outline-primary active" id="tab-login-btn"
+          onclick="app.switchAuthTab('login')" style="flex: 1;">
           <i class="fa-solid fa-right-to-bracket"></i> تسجيل الدخول
         </button>
-        <button type="button" class="btn btn-outline-primary" id="tab-register-btn" onclick="app.switchAuthTab('register')" style="flex: 1;">
+        <button type="button" class="btn btn-outline-primary" id="tab-register-btn"
+          onclick="app.switchAuthTab('register')" style="flex: 1;">
           <i class="fa-solid fa-user-plus"></i> إنشاء حساب جديد
         </button>
       </div>
@@ -687,17 +725,20 @@
       <form id="login-form" onsubmit="app.handleLogin(event)" autocomplete="off">
         <div class="form-group">
           <label for="login-email">البريد الإلكتروني</label>
-          <input type="email" id="login-email" class="form-control" placeholder="أدخل البريد الإلكتروني" required autocomplete="off">
+          <input type="email" id="login-email" class="form-control" placeholder="أدخل البريد الإلكتروني" required
+            autocomplete="off">
         </div>
         <div class="form-group">
           <label for="login-password">كلمة المرور</label>
-          <input type="password" id="login-password" class="form-control" placeholder="أدخل كلمة المرور الخاصة بك" required autocomplete="new-password">
+          <input type="password" id="login-password" class="form-control" placeholder="أدخل كلمة المرور الخاصة بك"
+            required autocomplete="new-password">
         </div>
 
-        
+
         <div class="modal-footer justify-between">
           <button type="button" class="btn btn-secondary" onclick="app.closeLoginModal()">إلغاء</button>
-          <button type="submit" class="btn btn-primary"><i class="fa-solid fa-right-to-bracket"></i> دخول إلى الحساب</button>
+          <button type="submit" class="btn btn-primary"><i class="fa-solid fa-right-to-bracket"></i> دخول إلى
+            الحساب</button>
         </div>
       </form>
 
@@ -713,12 +754,14 @@
         </div>
         <div class="form-group">
           <label for="register-password">كلمة المرور التي تريدها</label>
-          <input type="password" id="register-password" class="form-control" placeholder="اختر كلمة مرور قوية" required minlength="4">
+          <input type="password" id="register-password" class="form-control" placeholder="اختر كلمة مرور قوية" required
+            minlength="4">
         </div>
-        
+
         <div class="modal-footer justify-between">
           <button type="button" class="btn btn-secondary" onclick="app.closeLoginModal()">إلغاء</button>
-          <button type="submit" class="btn btn-success"><i class="fa-solid fa-user-check"></i> إنشاء الحساب وتخزينه في MySQL</button>
+          <button type="submit" class="btn btn-success"><i class="fa-solid fa-user-check"></i> إنشاء الحساب وتخزينه في
+            MySQL</button>
         </div>
       </form>
 
@@ -730,7 +773,8 @@
   <div class="modal-overlay" id="admin-order-modal-overlay" style="display: none;">
     <div class="modal-card modal-lg">
       <div class="modal-header">
-        <h2><i class="fa-solid fa-receipt text-cyan"></i> تفاصيل الطلب (<span id="admin-order-code-title">#MN-0000</span>)</h2>
+        <h2><i class="fa-solid fa-receipt text-cyan"></i> تفاصيل الطلب (<span
+            id="admin-order-code-title">#MN-0000</span>)</h2>
         <button class="modal-close-btn" onclick="app.closeAdminOrderModal()"><i class="fa-solid fa-xmark"></i></button>
       </div>
 
@@ -757,4 +801,5 @@
   <!-- Application JS -->
   <script src="app.js"></script>
 </body>
+
 </html>

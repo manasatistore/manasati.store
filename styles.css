@@ -165,19 +165,32 @@ a:hover {
 }
 
 .logo-icon-wrapper {
-  width: 44px;
-  height: 44px;
-  background: linear-gradient(135deg, var(--accent-purple), var(--accent-indigo));
+  width: 46px;
+  height: 46px;
   border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: var(--shadow-glow);
+  overflow: hidden;
+  border: 1.5px solid rgba(139, 92, 246, 0.4);
+  box-shadow: 0 0 15px rgba(139, 92, 246, 0.3);
+  background: #0d1322;
+  flex-shrink: 0;
+  transition: all 0.3s ease;
 }
 
-.logo-icon {
-  font-size: 22px;
-  color: #ffffff;
+.brand-logo:hover .logo-icon-wrapper {
+  transform: scale(1.08) rotate(-2deg);
+  border-color: var(--accent-cyan);
+  box-shadow: 0 0 20px rgba(6, 182, 212, 0.4);
+}
+
+.brand-logo-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 10px;
 }
 
 .logo-text {
@@ -1298,32 +1311,33 @@ a:hover {
   gap: 12px;
 }
 
-/* FOOTER SOCIAL & CONTACT BUTTONS */
+/* FOOTER SOCIAL & CONTACT BUTTONS (SIDE-BY-SIDE GRID) */
 .footer-social-buttons {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  margin-top: 14px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 12px;
+  margin-top: 16px;
 }
 
 .social-btn {
   display: flex;
   align-items: center;
-  gap: 12px;
-  background: var(--bg-secondary);
+  gap: 10px;
+  background: var(--bg-card);
   border: 1px solid var(--border-color);
   border-radius: var(--radius-md);
-  padding: 10px 14px;
+  padding: 10px 12px;
   text-decoration: none;
   color: #ffffff;
-  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
   overflow: hidden;
+  width: 100%;
 }
 
 .social-btn:hover {
-  transform: translateY(-2px);
-  border-color: rgba(255, 255, 255, 0.2);
+  transform: translateY(-3px);
+  background: var(--bg-card-hover);
 }
 
 .social-btn .social-icon {
@@ -1336,76 +1350,85 @@ a:hover {
   font-size: 18px;
   flex-shrink: 0;
   color: #ffffff;
-  transition: transform 0.25s ease;
+  transition: all 0.3s ease;
+}
+
+.social-btn .social-icon svg {
+  width: 22px;
+  height: 22px;
+  fill: #ffffff;
+  display: block;
 }
 
 .social-btn:hover .social-icon {
-  transform: scale(1.1);
+  transform: scale(1.12) rotate(-4deg);
 }
 
 .social-text {
   display: flex;
   flex-direction: column;
   gap: 2px;
+  overflow: hidden;
 }
 
 .social-title {
-  font-size: 13px;
+  font-size: 13.5px;
   font-weight: 700;
   color: #ffffff;
+  white-space: nowrap;
 }
 
 .social-sub {
-  font-size: 11.5px;
+  font-size: 11px;
   color: var(--text-muted);
   direction: ltr;
   text-align: right;
-  font-weight: 500;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-/* Specific Brands Accent Colors & Glowing Hover Effects */
+/* Specific Brands Accent Colors & Glowing Gradient Effects */
 .social-btn.whatsapp-btn .social-icon {
-  background: rgba(37, 211, 102, 0.18);
-  color: #25D366;
-  border: 1px solid rgba(37, 211, 102, 0.3);
+  background: linear-gradient(135deg, #25D366, #128C7E);
+  color: #ffffff;
+  box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
 }
 .social-btn.whatsapp-btn:hover {
   border-color: #25D366;
-  box-shadow: 0 4px 18px rgba(37, 211, 102, 0.25);
-  background: rgba(37, 211, 102, 0.08);
+  box-shadow: 0 8px 24px rgba(37, 211, 102, 0.35);
 }
 
 .social-btn.phone-btn .social-icon {
-  background: rgba(6, 182, 212, 0.18);
-  color: #06b6d4;
-  border: 1px solid rgba(6, 182, 212, 0.3);
+  background: linear-gradient(135deg, #06b6d4, #0891b2);
+  color: #ffffff;
+  box-shadow: 0 4px 15px rgba(6, 182, 212, 0.4);
 }
 .social-btn.phone-btn:hover {
   border-color: #06b6d4;
-  box-shadow: 0 4px 18px rgba(6, 182, 212, 0.25);
-  background: rgba(6, 182, 212, 0.08);
+  box-shadow: 0 8px 24px rgba(6, 182, 212, 0.35);
 }
 
 .social-btn.instagram-btn .social-icon {
-  background: linear-gradient(135deg, rgba(225, 48, 108, 0.2), rgba(253, 29, 29, 0.2));
-  color: #e1306c;
-  border: 1px solid rgba(225, 48, 108, 0.3);
+  background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+  color: #ffffff;
+  box-shadow: 0 4px 15px rgba(225, 48, 108, 0.4);
 }
 .social-btn.instagram-btn:hover {
   border-color: #e1306c;
-  box-shadow: 0 4px 18px rgba(225, 48, 108, 0.25);
-  background: rgba(225, 48, 108, 0.08);
+  box-shadow: 0 8px 24px rgba(225, 48, 108, 0.35);
 }
 
 .social-btn.email-btn .social-icon {
-  background: rgba(139, 92, 246, 0.18);
-  color: #8b5cf6;
-  border: 1px solid rgba(139, 92, 246, 0.3);
+  background: linear-gradient(135deg, #8b5cf6, #6366f1);
+  color: #ffffff;
+  box-shadow: 0 4px 15px rgba(139, 92, 246, 0.4);
 }
 .social-btn.email-btn:hover {
   border-color: #8b5cf6;
-  box-shadow: 0 4px 18px rgba(139, 92, 246, 0.25);
-  background: rgba(139, 92, 246, 0.08);
+  box-shadow: 0 8px 24px rgba(139, 92, 246, 0.35);
 }
 
 .contact-footer-link {
@@ -1423,28 +1446,94 @@ a:hover {
 }
 
 .working-hours {
-  margin-top: 12px;
+  margin-top: 14px;
   color: var(--text-muted);
-  font-size: 12.5px;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* PAYMENT METHODS BADGES STYLING */
+.payment-methods {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
 }
 
 .pay-tag {
-  background: var(--bg-secondary);
+  background: var(--bg-card);
   border: 1px solid var(--border-color);
-  padding: 5px 12px;
+  padding: 7px 15px;
   border-radius: var(--radius-full);
-  font-size: 12px;
-  font-weight: 600;
+  font-size: 12.5px;
+  font-weight: 700;
   color: var(--text-main);
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  transition: var(--transition-fast);
+  gap: 8px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.pay-tag i {
+  font-size: 14px;
+  transition: transform 0.25s ease;
 }
 
 .pay-tag:hover {
-  border-color: var(--accent-purple);
-  background: rgba(139, 92, 246, 0.1);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
+}
+
+.pay-tag:hover i {
+  transform: scale(1.2);
+}
+
+/* Specific Payment Tag Accents */
+.pay-tag.kuraimi-pay {
+  border-color: rgba(16, 185, 129, 0.3);
+  background: rgba(16, 185, 129, 0.08);
+  color: #34d399;
+}
+.pay-tag.kuraimi-pay:hover {
+  border-color: #10b981;
+  background: rgba(16, 185, 129, 0.16);
+  box-shadow: 0 4px 15px rgba(16, 185, 129, 0.25);
+}
+
+.pay-tag.ewallet-pay {
+  border-color: rgba(139, 92, 246, 0.3);
+  background: rgba(139, 92, 246, 0.08);
+  color: #a78bfa;
+}
+.pay-tag.ewallet-pay:hover {
+  border-color: #8b5cf6;
+  background: rgba(139, 92, 246, 0.16);
+  box-shadow: 0 4px 15px rgba(139, 92, 246, 0.25);
+}
+
+.pay-tag.mobile-pay {
+  border-color: rgba(6, 182, 212, 0.3);
+  background: rgba(6, 182, 212, 0.08);
+  color: #38bdf8;
+}
+.pay-tag.mobile-pay:hover {
+  border-color: #06b6d4;
+  background: rgba(6, 182, 212, 0.16);
+  box-shadow: 0 4px 15px rgba(6, 182, 212, 0.25);
+}
+
+.pay-tag.cash-pay {
+  border-color: rgba(245, 158, 11, 0.3);
+  background: rgba(245, 158, 11, 0.08);
+  color: #fbbf24;
+}
+.pay-tag.cash-pay:hover {
+  border-color: #f59e0b;
+  background: rgba(245, 158, 11, 0.16);
+  box-shadow: 0 4px 15px rgba(245, 158, 11, 0.25);
 }
 
 /* PAYMENT METHODS GRID */
