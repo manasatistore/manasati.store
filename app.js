@@ -6,7 +6,7 @@
    ========================================================================== */
 
 const API_BASE_URL = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
-  ? 'http://localhost:5005/api'
+  ? `${window.location.protocol}//${window.location.hostname}:${window.location.port || 8080}/api`
   : 'https://manasatistore-production.up.railway.app/api';
 
 
