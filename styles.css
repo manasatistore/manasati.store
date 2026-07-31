@@ -535,7 +535,6 @@ a:hover {
   gap: 24px;
 }
 
-/* PRODUCT CARD UNIFORMITY & ALIGNMENT */
 .product-card {
   background: var(--bg-card);
   border: 1px solid var(--border-color);
@@ -546,10 +545,12 @@ a:hover {
   height: 100%;
   transition: var(--transition-smooth);
   position: relative;
+  backface-visibility: hidden;
+  transform: translateZ(0);
 }
 
 .product-card:hover {
-  transform: translateY(-6px);
+  transform: translateY(-6px) translateZ(0);
   border-color: var(--border-active);
   box-shadow: var(--shadow-card), var(--shadow-glow);
 }
@@ -1221,6 +1222,125 @@ a:hover {
   outline: none;
   border-color: var(--accent-purple);
   box-shadow: 0 0 0 3px var(--accent-purple-glow);
+}
+
+/* PASSWORD EYE TOGGLE STYLES */
+.password-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.password-input-wrapper input {
+  padding-left: 45px !important;
+  width: 100%;
+}
+
+.toggle-password-btn {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 16px;
+  cursor: pointer;
+  padding: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition-fast);
+  z-index: 5;
+}
+
+.toggle-password-btn:hover {
+  color: var(--accent-purple);
+  transform: translateY(-50%) scale(1.15);
+}
+
+/* COUNTRY CODE & PHONE GROUP STYLES */
+.phone-input-group {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+}
+
+.country-code-select {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  color: var(--text-main);
+  padding: 10px 12px;
+  font-family: inherit;
+  font-size: 13.5px;
+  font-weight: 600;
+  cursor: pointer;
+  max-width: 175px;
+  flex-shrink: 0;
+  transition: var(--transition-fast);
+}
+
+.country-code-select:focus {
+  outline: none;
+  border-color: var(--accent-purple);
+  box-shadow: 0 0 0 3px var(--accent-purple-glow);
+}
+
+.phone-input-group input {
+  flex: 1;
+}
+
+/* PAYMENT METHOD CARDS SELECTION STYLES */
+.payment-methods-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+}
+
+.pay-method-card {
+  border: 1.5px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 14px 16px;
+  background: var(--bg-secondary);
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  display: block;
+  position: relative;
+}
+
+.pay-method-card input[type="radio"] {
+  display: none;
+}
+
+.pay-method-card:hover {
+  border-color: rgba(139, 92, 246, 0.5);
+  background: var(--bg-card-hover);
+  transform: translateY(-2px);
+}
+
+.pay-method-card.active {
+  border-color: var(--accent-purple) !important;
+  background: rgba(139, 92, 246, 0.15) !important;
+  box-shadow: 0 0 20px rgba(139, 92, 246, 0.3) !important;
+}
+
+.pay-method-card.active::after {
+  content: '✓';
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: var(--accent-purple);
+  color: #ffffff;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  font-size: 12px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .modal-footer {
@@ -1922,5 +2042,250 @@ a:hover {
   border-color: var(--primary-color);
   color: var(--primary-light);
   background: rgba(139, 92, 246, 0.15);
+}
+
+/* ==========================================================================
+   COMPREHENSIVE RESPONSIVE DESIGN SYSTEM (MOBILE, TABLET, LAPTOP, DESKTOP)
+   Ensures 100% Layout & UI Compatibility for Guests, Users, and Admins
+   ========================================================================== */
+
+/* 1. LARGE TABLETS & LAPTOPS (< 1024px) */
+@media (max-width: 1024px) {
+  .container {
+    padding: 0 16px;
+  }
+
+  .header-search {
+    max-width: 320px;
+  }
+
+  .services-grid {
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 18px;
+  }
+
+  .footer-content {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 30px;
+  }
+}
+
+/* 2. TABLETS & LARGE PHONES (< 768px) */
+@media (max-width: 768px) {
+  /* Announcement bar */
+  .announcement-content {
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    gap: 6px;
+  }
+
+  /* Main Header Stack */
+  .main-header {
+    padding: 10px 0;
+  }
+
+  .header-content {
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .brand-logo {
+    order: 1;
+  }
+
+  .header-actions {
+    order: 2;
+    gap: 8px;
+  }
+
+  .header-search {
+    order: 3;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .header-search input {
+    padding: 9px 38px 9px 36px;
+    font-size: 13px;
+  }
+
+  /* User Info Badge */
+  .user-info-pill {
+    padding: 4px 8px;
+  }
+
+  .user-name-label {
+    max-width: 80px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  /* Hero Section */
+  .hero-section {
+    padding: 30px 0;
+    text-align: center;
+  }
+
+  .hero-title {
+    font-size: 26px;
+    line-height: 1.35;
+  }
+
+  .hero-subtitle {
+    font-size: 14px;
+  }
+
+  .hero-highlights {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  /* Services Grid & Controls */
+  .controls-wrapper {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+
+  .services-grid {
+    grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+    gap: 16px;
+  }
+
+  /* Admin View Responsiveness */
+  .admin-header-card {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 20px;
+    gap: 16px;
+  }
+
+  .admin-actions {
+    width: 100%;
+  }
+
+  .admin-actions .btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .admin-stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .stat-card {
+    padding: 14px;
+    gap: 10px;
+  }
+
+  .stat-icon {
+    width: 42px;
+    height: 42px;
+    font-size: 18px;
+    border-radius: 12px;
+  }
+
+  .stat-content h3 {
+    font-size: 18px;
+  }
+
+  /* Admin Tables Touch Scroll */
+  .table-responsive {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .admin-table th, .admin-table td {
+    padding: 10px 12px;
+    font-size: 12.5px;
+  }
+
+  /* Modals on Touch Screens */
+  .modal-card {
+    padding: 20px;
+    max-width: 100%;
+    border-radius: var(--radius-md);
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .form-group.full-width {
+    grid-column: span 1;
+  }
+
+  #product-detail-content {
+    grid-template-columns: 1fr;
+  }
+
+  .product-detail-media {
+    height: 200px;
+  }
+
+  /* Footer Section */
+  .footer-content {
+    grid-template-columns: 1fr;
+    gap: 25px;
+  }
+
+  .footer-bottom-flex {
+    flex-direction: column;
+    text-align: center;
+    gap: 14px;
+  }
+
+  .payment-methods {
+    justify-content: center;
+  }
+}
+
+/* 3. SMALL MOBILE PHONES (< 480px) */
+@media (max-width: 480px) {
+  .brand-name {
+    font-size: 18px;
+  }
+
+  .logo-icon-wrapper {
+    width: 38px;
+    height: 38px;
+  }
+
+  .btn {
+    padding: 8px 12px;
+    font-size: 13px;
+  }
+
+  .services-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .product-card {
+    max-width: 100%;
+  }
+
+  .card-image-wrap {
+    height: 180px;
+  }
+
+  .admin-stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .footer-social-buttons {
+    grid-template-columns: 1fr;
+  }
+
+  .pay-tag {
+    padding: 5px 10px;
+    font-size: 11.5px;
+  }
+
+  .modal-header h3 {
+    font-size: 16px;
+  }
 }
 

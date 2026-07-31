@@ -180,23 +180,26 @@ class ManasatiApp {
 
   // Event Listeners Registration
   bindEvents() {
-    // Search Listener
+    // Ultra-Fast Real-Time Search Listener
     if (this.searchInput) {
       this.searchInput.addEventListener("input", (e) => {
-        this.searchQuery = e.target.value.trim().toLowerCase();
+        this.searchQuery = e.target.value.trim();
         if (this.clearSearchBtn) {
           this.clearSearchBtn.style.display = this.searchQuery ? "block" : "none";
         }
-        this.renderServices();
+        window.requestAnimationFrame(() => this.renderServices());
+      });
+
+      this.searchInput.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") {
+          this.resetFilters();
+        }
       });
     }
 
     if (this.clearSearchBtn) {
       this.clearSearchBtn.addEventListener("click", () => {
-        this.searchInput.value = '';
-        this.searchQuery = '';
-        this.clearSearchBtn.style.display = 'none';
-        this.renderServices();
+        this.resetFilters();
       });
     }
 
@@ -422,6 +425,25 @@ class ManasatiApp {
     }
   }
 
+  // Toggle Password Visibility (Eye Icon Toggle)
+  togglePasswordVisibility(inputId, btnEl) {
+    const input = document.getElementById(inputId);
+    if (!input) return;
+
+    const icon = btnEl.querySelector('i');
+    if (input.type === 'password') {
+      input.type = 'text';
+      if (icon) {
+        icon.className = 'fa-solid fa-eye-slash text-purple';
+      }
+    } else {
+      input.type = 'password';
+      if (icon) {
+        icon.className = 'fa-solid fa-eye';
+      }
+    }
+  }
+
   logout() {
     this.authToken = null;
     this.currentUser = null;
@@ -476,6 +498,37 @@ class ManasatiApp {
     this.renderServices();
   }
 
+  // Arabic Text Normalization for Ultra-Fast Search Matching
+  normalizeArabicText(text) {
+    if (!text) return '';
+    return text.toString().toLowerCase()
+      .replace(/[أإآ]/g, 'ا')
+      .replace(/ة/g, 'ه')
+      .replace(/ى/g, 'ي')
+      .replace(/[\u064B-\u0652]/g, '')
+      .trim();
+  }
+
+  // Instant Category Filter (from footer links, header, or quick buttons)
+  filterCategory(category) {
+    this.activeCategory = category;
+    
+    // Update Cat Pills Active state
+    const catPills = document.querySelectorAll(".cat-pill");
+    catPills.forEach(pill => {
+      const pCat = pill.getAttribute("data-category");
+      pill.classList.toggle("active", pCat === category);
+    });
+
+    this.renderServices();
+
+    // Smooth scroll to services section
+    const servicesSec = document.getElementById("services-grid") || document.querySelector(".services-section");
+    if (servicesSec) {
+      servicesSec.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  }
+
   // Reset Search & Category Filters
   resetFilters() {
     this.searchQuery = '';
@@ -490,15 +543,25 @@ class ManasatiApp {
     this.renderServices();
   }
 
-  // Render Customer Services Grid with Clear Icon Buttons
+  // Render Customer Services Grid with Instant Normalized Search Matching
   renderServices() {
+    const qNorm = this.normalizeArabicText(this.searchQuery);
+
     let filtered = this.services.filter(srv => {
       const matchCat = this.activeCategory === 'all' || srv.category === this.activeCategory;
-      const matchQuery = !this.searchQuery ||
-        srv.title.toLowerCase().includes(this.searchQuery) ||
-        (srv.description && srv.description.toLowerCase().includes(this.searchQuery)) ||
-        (srv.badge && srv.badge.toLowerCase().includes(this.searchQuery));
-      return matchCat && matchQuery;
+      if (!matchCat) return false;
+
+      if (!qNorm) return true;
+
+      const titleNorm = this.normalizeArabicText(srv.title);
+      const descNorm = this.normalizeArabicText(srv.description);
+      const badgeNorm = this.normalizeArabicText(srv.badge);
+      const catLabelNorm = this.normalizeArabicText(this.getCategoryLabel(srv.category));
+
+      return titleNorm.includes(qNorm) ||
+             descNorm.includes(qNorm) ||
+             badgeNorm.includes(qNorm) ||
+             catLabelNorm.includes(qNorm);
     });
 
     // Apply Sorting
@@ -754,6 +817,23 @@ class ManasatiApp {
     document.getElementById("checkout-modal-overlay").style.display = "flex";
   }
 
+  // Country Code Dropdown Change Handler
+  onCountryCodeChange(selectEl) {
+    const phoneInput = document.getElementById("cust-phone");
+    if (!phoneInput || !selectEl) return;
+    const selectedOption = selectEl.options[selectEl.selectedIndex];
+    const placeholderText = selectedOption.getAttribute("data-placeholder") || "770000000";
+    phoneInput.placeholder = placeholderText;
+  }
+
+  // Payment Method Card Selection Handler
+  selectPaymentMethod(cardEl) {
+    document.querySelectorAll(".pay-method-card").forEach(c => c.classList.remove("active"));
+    cardEl.classList.add("active");
+    const radioInput = cardEl.querySelector("input[type='radio']");
+    if (radioInput) radioInput.checked = true;
+  }
+
   closeCheckout() {
     document.getElementById("checkout-modal-overlay").style.display = "none";
   }
@@ -762,10 +842,51 @@ class ManasatiApp {
     if (event) event.preventDefault();
 
     const custName = document.getElementById("cust-name").value.trim();
-    const custPhone = document.getElementById("cust-phone").value.trim();
+    const rawPhone = document.getElementById("cust-phone").value.trim();
+    const cleanDigits = rawPhone.replace(/\D/g, '');
+    const countryCode = document.getElementById("cust-country-code") ? document.getElementById("cust-country-code").value : '+967';
+
+    // Strict Phone Number Length Validation per Country
+    if (countryCode === '+967') {
+      // Yemen: Exactly 9 digits required (e.g. 770000000 / 730000000)
+      if (cleanDigits.length !== 9) {
+        this.showToast(`⚠️ رقم الجوال اليمني غير مكتمل! يجب أن يتكون من 9 أرقام (إدخالك الحالي: ${cleanDigits.length} أرقام)`, "error");
+        const inputEl = document.getElementById("cust-phone");
+        if (inputEl) inputEl.focus();
+        return;
+      }
+    } else if (countryCode === '+966') {
+      // Saudi Arabia: 9 or 10 digits
+      if (cleanDigits.length < 9 || cleanDigits.length > 10) {
+        this.showToast(`⚠️ رقم الجوال السعودي غير صحيح! يجب أن يتكون من 9 إلى 10 أرقام (إدخالك الحالي: ${cleanDigits.length} أرقام)`, "error");
+        const inputEl = document.getElementById("cust-phone");
+        if (inputEl) inputEl.focus();
+        return;
+      }
+    } else if (countryCode === '+965' || countryCode === '+974' || countryCode === '+968' || countryCode === '+973') {
+      // Gulf Countries (Kuwait, Qatar, Oman, Bahrain): 8 digits
+      if (cleanDigits.length !== 8) {
+        this.showToast(`⚠️ رقم الجوال غير مكتمل! يجب أن يتكون من 8 أرقام لهذا البلد (إدخالك الحالي: ${cleanDigits.length} أرقام)`, "error");
+        const inputEl = document.getElementById("cust-phone");
+        if (inputEl) inputEl.focus();
+        return;
+      }
+    } else if (cleanDigits.length < 7) {
+      this.showToast(`⚠️ رقم الجوال المكتوب ناقص وغير مكتمل! يرجى التأكد من الرقم`, "error");
+      const inputEl = document.getElementById("cust-phone");
+      if (inputEl) inputEl.focus();
+      return;
+    }
+
+    const custPhone = countryCode ? `${countryCode} ${rawPhone}` : rawPhone;
     const custEmail = document.getElementById("cust-email").value.trim();
+    
     const payMethodEl = document.querySelector("input[name='pay-method']:checked");
-    const payMethod = payMethodEl ? payMethodEl.value : 'madapay';
+    if (!payMethodEl) {
+      this.showToast("⚠️ يرجى اختيار وسيلة الدفع المناسبة للطلب أولاً", "error");
+      return;
+    }
+    const payMethod = payMethodEl.value;
 
     if (this.cart.length === 0) {
       this.showToast("السلة فارغة، أضف بعض المنتجات أولاً", "error");
