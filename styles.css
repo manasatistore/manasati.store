@@ -2682,3 +2682,134 @@ a:hover {
   }
 }
 
+/* ======================================================
+   RESPONSIVE MOBILE OPTIMIZATION FOR CHECKOUT MODAL FORM
+   ====================================================== */
+#checkout-modal-overlay .modal-card {
+  max-width: 540px;
+  width: 96%;
+}
+
+@media (max-width: 640px) {
+  #checkout-modal-overlay {
+    padding: 10px 6px;
+    align-items: center;
+  }
+
+  #checkout-modal-overlay .modal-card {
+    width: 100%;
+    max-width: 100%;
+    max-height: 92vh;
+    padding: 16px 14px;
+    border-radius: 18px;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  #checkout-modal-overlay .modal-header {
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+  }
+
+  #checkout-modal-overlay .modal-header h3 {
+    font-size: 15px;
+  }
+
+  #checkout-modal-overlay .form-group {
+    margin-bottom: 10px;
+  }
+
+  #checkout-modal-overlay .form-group label {
+    font-size: 12px;
+    margin-bottom: 4px;
+  }
+
+  #checkout-modal-overlay input[type="text"],
+  #checkout-modal-overlay input[type="tel"],
+  #checkout-modal-overlay input[type="email"] {
+    padding: 8px 10px;
+    font-size: 12.5px;
+    border-radius: var(--radius-sm);
+  }
+
+  .phone-input-group {
+    gap: 6px;
+  }
+
+  .country-code-select {
+    max-width: 130px;
+    padding: 8px 6px;
+    font-size: 11.5px;
+    border-radius: var(--radius-sm);
+  }
+
+  .payment-methods-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+  }
+
+  .pay-method-card {
+    padding: 8px 10px;
+    border-radius: var(--radius-sm);
+  }
+
+  .pay-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+  }
+
+  .pay-info i {
+    font-size: 15px;
+    margin-bottom: 2px;
+  }
+
+  .pay-info span {
+    font-size: 11.5px;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+
+  .pay-desc {
+    font-size: 9.5px;
+    opacity: 0.8;
+  }
+
+  .checkout-total-box {
+    padding: 8px 12px;
+    margin-top: 10px;
+    border-radius: var(--radius-sm);
+    font-size: 13px;
+  }
+
+  .checkout-total-box strong {
+    font-size: 16px;
+  }
+
+  #checkout-modal-overlay .modal-footer {
+    margin-top: 12px;
+    padding-top: 10px;
+    gap: 8px;
+  }
+
+  #checkout-modal-overlay .modal-footer .btn {
+    padding: 8px 14px;
+    font-size: 12.5px;
+    border-radius: var(--radius-sm);
+  }
+}
+
+@media (max-width: 380px) {
+  .payment-methods-grid {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+
+  .country-code-select {
+    max-width: 115px;
+    font-size: 11px;
+    padding: 7px 4px;
+  }
+}
+
