@@ -575,10 +575,13 @@ class ManasatiApp {
 
   // Switch between Customer Front Store & Admin Dashboard (Permission Guarded)
   switchRole(role, silent = false) {
+    const cartBtn = document.getElementById("cart-trigger-btn");
+
     if (role === 'admin') {
       if (!this.currentUser || this.currentUser.role !== 'admin') {
         localStorage.setItem("manasati_role", "user");
         if (this.roleAdminBtn) this.roleAdminBtn.style.display = "none";
+        if (cartBtn) cartBtn.style.display = "inline-flex";
         if (!silent) this.showToast("🔒 غير مصرح لك. صفحة الإدارة مخصصة للمسؤول (Admin) فقط.", "error");
         this.openLoginModal('login');
         this.currentRole = 'user';
@@ -591,6 +594,7 @@ class ManasatiApp {
 
       this.currentRole = 'admin';
       localStorage.setItem("manasati_role", "admin");
+      if (cartBtn) cartBtn.style.display = "none"; // Hide Cart button in Admin mode
       if (this.roleUserBtn) this.roleUserBtn.classList.remove("active");
       if (this.roleAdminBtn) {
         this.roleAdminBtn.classList.add("active");
@@ -604,6 +608,7 @@ class ManasatiApp {
     } else {
       this.currentRole = 'user';
       localStorage.setItem("manasati_role", "user");
+      if (cartBtn) cartBtn.style.display = "inline-flex"; // Show Cart button in Storefront mode
       if (this.roleAdminBtn) this.roleAdminBtn.classList.remove("active");
       if (this.roleUserBtn) this.roleUserBtn.classList.add("active");
       if (this.adminView) this.adminView.style.display = "none";
