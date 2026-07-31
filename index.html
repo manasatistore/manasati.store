@@ -36,11 +36,25 @@
     </div>
   </div>
 
-  <!-- Main Navigation Header -->
-  <header class="main-header">
-    <div class="container header-content">
-      <!-- Store Brand Logo -->
-      <a href="#" class="brand-logo" id="brand-logo-btn">
+  <!-- Main Navigation Header (Centered Logo Layout) -->
+  <header class="main-header header-centered-layout">
+    <div class="container header-content-centered">
+
+      <!-- Right Actions: Navigation Drawer Toggle (☰) + Search Toggle (🔍) -->
+      <div class="header-right-group">
+        <button class="nav-icon-btn nav-drawer-trigger" id="nav-drawer-btn" onclick="app.toggleMobileNavDrawer(event)"
+          title="القائمة الرئيسية والأقسام">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+        <button class="nav-icon-btn header-search-toggle" id="header-search-btn" onclick="app.toggleHeaderSearch(event)"
+          title="البحث في المتجر">
+          <i class="fa-solid fa-magnifying-glass"></i>
+        </button>
+      </div>
+
+      <!-- Center Brand Logo -->
+      <a href="#" class="brand-logo header-brand-center" id="brand-logo-btn"
+        onclick="app.resetFilters(); window.scrollTo({top:0, behavior:'smooth'});">
         <div class="logo-icon-wrapper">
           <img src="logo.jpg" alt="منصتي | Manasati Store" class="brand-logo-img">
         </div>
@@ -50,58 +64,124 @@
         </div>
       </a>
 
-      <!-- Search Input Bar -->
-      <div class="header-search">
-        <i class="fa-solid fa-magnifying-glass search-icon"></i>
-        <input type="text" id="search-input" placeholder="ابحث عن اشتراك (نتفليكس، شاهد، ChatGPT، كانفا...)"
-          autocomplete="off">
-        <button class="clear-search-btn" id="clear-search-btn" style="display: none;"><i
-            class="fa-solid fa-xmark"></i></button>
-      </div>
+      <!-- Left Actions: User Auth Icon + Cart with Red Badge -->
+      <div class="header-left-group">
 
-      <!-- Navigation Actions & Cart -->
-      <div class="header-actions">
-        <!-- Auth User Widget -->
+        <!-- User Auth Widget -->
         <div id="auth-user-container" class="auth-user-container">
-          <div id="logged-out-actions" class="logged-out-actions" style="display: flex; gap: 6px;">
-            <button class="btn btn-outline-primary btn-sm" id="open-login-btn" onclick="app.openLoginModal('login')">
-              <i class="fa-solid fa-right-to-bracket"></i>
-            </button>
-            <button class="btn btn-primary btn-sm" id="open-register-btn" onclick="app.openLoginModal('register')">
-              <i class="fa-solid fa-user-plus"></i>
+          <div id="logged-out-actions" class="logged-out-actions">
+            <button class="nav-icon-btn auth-icon-btn" id="open-login-btn" onclick="app.openLoginModal('login')"
+              title="تسجيل الدخول / إنشاء حساب">
+              <i class="fa-solid fa-user"></i>
             </button>
           </div>
-          <div id="logged-user-info" class="logged-user-info" style="display: none; align-items: center; gap: 8px;">
-            <span class="user-name-label" id="user-display-name">المستخدم</span>
-            <span class="user-role-badge" id="user-role-badge">مشترك</span>
-            <button class="btn btn-outline-danger btn-sm logout-btn" title="تسجيل الخروج والرجوع كزائر"
-              onclick="app.logout()">
-              <i class="fa-solid fa-right-from-bracket"></i>
+          <div id="logged-user-info" class="logged-user-info" style="display: none; align-items: center; gap: 6px;">
+            <!-- <button class="nav-icon-btn user-logged-btn" onclick="app.handleUserHeaderClick()" title="حسابي / لوحة التحكم">
+              <i class="fa-solid fa-user-shield text-amber" id="user-header-icon"></i>
+            </button> -->
+            <button class="nav-icon-btn logout-btn" title="تسجيل الخروج والرجوع كزائر" onclick="app.logout()">
+              <i class="fa-solid fa-right-from-bracket text-pink"></i>
             </button>
           </div>
         </div>
 
-
         <!-- Role Switcher (Customer / Admin) -->
         <div class="role-switcher-container">
-          <button class="role-btn active" id="role-user-btn" onclick="app.switchRole('user')">
+          <button class="role-btn active" id="role-user-btn" onclick="app.switchRole('user')" title="المتجر الرئيسي"
+            style="display:none;">
             <i class="fa-solid fa-store"></i>
           </button>
-          <button class="role-btn" id="role-admin-btn" onclick="app.switchRole('admin')" style="display: none;">
+          <button class="role-btn" id="role-admin-btn" onclick="app.switchRole('admin')" style="display: none;"
+            title="لوحة الأدمن">
             <i class="fa-solid fa-user-shield"></i>
           </button>
         </div>
 
-
-        <!-- Cart Button -->
-        <button class="cart-trigger-btn" id="cart-trigger-btn" onclick="app.openCart()">
+        <!-- Cart Button with Red Badge -->
+        <button class="nav-icon-btn cart-icon-badge-btn" id="cart-trigger-btn" onclick="app.openCart()"
+          title="سلة التسوق">
           <i class="fa-solid fa-cart-shopping"></i>
-          <span class="cart-label"></span>
-          <span class="cart-badge" id="cart-badge-count">0</span>
+          <span class="cart-badge-red" id="cart-badge-count">0</span>
+        </button>
+      </div>
+
+    </div>
+
+    <!-- Expandable Search Input Bar -->
+    <div class="header-search-expandable" id="header-search-expandable">
+      <div class="container search-expandable-inner">
+        <i class="fa-solid fa-magnifying-glass search-icon"></i>
+        <input type="text" id="search-input" placeholder="ابحث عن اشتراك (نتفليكس، شاهد، ChatGPT، كانفا...)"
+          autocomplete="off">
+        <button class="clear-search-btn" id="clear-search-btn" style="display: none;">
+          <i class="fa-solid fa-xmark"></i>
         </button>
       </div>
     </div>
   </header>
+
+  <!-- Sliding Side Navigation Drawer (Menu ☰) -->
+  <div class="side-drawer-overlay" id="side-drawer-overlay" onclick="app.closeMobileNavDrawer()">
+    <div class="side-drawer-card" onclick="event.stopPropagation()">
+      <div class="drawer-header">
+        <div class="brand-logo">
+          <div class="logo-icon-wrapper">
+            <img src="logo.jpg" alt="منصتي" class="brand-logo-img">
+          </div>
+          <span class="brand-name">منصـتي</span>
+        </div>
+        <button class="close-modal-btn" onclick="app.closeMobileNavDrawer()"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+
+      <div class="drawer-body">
+        <h4 class="drawer-section-title"><i class="fa-solid fa-layer-group text-purple"></i> أقسام الاشتراكات</h4>
+        <div class="drawer-menu-list">
+          <a href="#" class="drawer-item" onclick="app.selectCategoryFromDrawer('all', event)">
+            <i class="fa-solid fa-border-all text-purple"></i> جميع الخدمات والاشتراكات
+          </a>
+          <a href="#" class="drawer-item" onclick="app.selectCategoryFromDrawer('entertainment', event)">
+            <i class="fa-solid fa-film text-pink"></i> اشتراكات الترفيه وسينما
+          </a>
+          <a href="#" class="drawer-item" onclick="app.selectCategoryFromDrawer('ai', event)">
+            <i class="fa-solid fa-robot text-cyan"></i> الذكاء الاصطناعي والتصميم
+          </a>
+          <a href="#" class="drawer-item" onclick="app.selectCategoryFromDrawer('gaming', event)">
+            <i class="fa-solid fa-gamepad text-amber"></i> ألعاب وااشتراكات
+          </a>
+          <a href="#" class="drawer-item" onclick="app.selectCategoryFromDrawer('sports', event)">
+            <i class="fa-solid fa-trophy text-green"></i> رياضة وبث مباشر
+          </a>
+          <a href="#" class="drawer-item" onclick="app.selectCategoryFromDrawer('music', event)">
+            <i class="fa-solid fa-music text-purple"></i> موسيقى وصوتيات
+          </a>
+        </div>
+
+        <h4 class="drawer-section-title margin-top-md" style="margin-top: 20px;">
+          <i class="fa-solid fa-compass text-cyan"></i> روابط سريعة للمتجر
+        </h4>
+        <div class="drawer-menu-list">
+          <a href="#" class="drawer-item" onclick="app.navigateToSection('services-section', event)">
+            <i class="fa-solid fa-store text-purple"></i> تصفح جميع الاشتراكات
+          </a>
+          <a href="#" class="drawer-item" onclick="app.navigateToSection('trust-section', event)">
+            <i class="fa-solid fa-shield-halved text-green"></i> ضمان منصتي والتفعيل الرسمي
+          </a>
+          <a href="#" class="drawer-item" onclick="app.navigateToSection('reviews-section', event)">
+            <i class="fa-solid fa-star text-amber"></i> آراء وتقييمات المشتركين
+          </a>
+          <a href="#" class="drawer-item" onclick="app.navigateToSection('footer-contact-section', event)">
+            <i class="fa-solid fa-headset text-cyan"></i> الدعم الفني وتواصل معنا
+          </a>
+          <a href="#" class="drawer-item" onclick="app.navigateToSection('payment-methods-section', event)">
+            <i class="fa-solid fa-credit-card text-pink"></i> وسائل الدفع المتاحة في اليمن
+          </a>
+          <a href="#" class="drawer-item" id="drawer-admin-link" onclick="app.switchRole('admin'); app.closeMobileNavDrawer();" style="display: none;">
+            <i class="fa-solid fa-user-shield text-amber"></i> لوحة التحكم والإدارة
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
 
 
   <!-- STOREFRONT VIEW (CUSTOMER MODE) -->
@@ -215,7 +295,7 @@
     </section>
 
     <!-- Store Features & Testimonials Section -->
-    <section class="trust-section">
+    <section class="trust-section" id="trust-section">
       <div class="container">
         <div class="trust-grid">
           <div class="trust-card">
@@ -238,7 +318,7 @@
     </section>
 
     <!-- Customer Reviews Slider / Grid -->
-    <section class="reviews-section">
+    <section class="reviews-section" id="reviews-section">
       <div class="container">
         <div class="section-center-header">
           <span class="sub-title">ثقة عملائنا سر نجاحنا</span>
@@ -301,13 +381,14 @@
           <div class="footer-links">
             <h4>روابط سريعة</h4>
             <ul>
-              <li><a href="#" onclick="app.filterCategory('entertainment')">اشتراكات الترفيه</a></li>
-              <li><a href="#" onclick="app.filterCategory('ai')">الذكاء الاصطناعي والتصميم</a></li>
-              <li><a href="#" onclick="app.filterCategory('gaming')">اشتراكات الألعاب</a></li>
-              <li><a href="#" onclick="app.filterCategory('sports')">البث الرياضي المباشر</a></li>
+              <li><a href="#" onclick="app.navigateToSection('services-section', event)">تصفح الاشتراكات الرقمية</a></li>
+              <li><a href="#" onclick="app.navigateToSection('trust-section', event)">ضمان منصتي والتفعيل الرسمي</a></li>
+              <li><a href="#" onclick="app.navigateToSection('reviews-section', event)">آراء وتقييمات المشتركين</a></li>
+              <li><a href="#" onclick="app.navigateToSection('footer-contact-section', event)">الدعم الفني والواتساب</a></li>
+              <li><a href="#" onclick="app.navigateToSection('payment-methods-section', event)">وسائل الدفع المتاحة</a></li>
             </ul>
           </div>
-          <div class="footer-contact">
+          <div class="footer-contact" id="footer-contact-section">
             <h4><i class="fa-solid fa-headset text-cyan"></i> تواصل معنا مباشرة</h4>
             <div class="footer-social-buttons">
               <a href="https://wa.me/967730688720" target="_blank" class="social-btn whatsapp-btn"
@@ -357,7 +438,7 @@
         <div class="footer-bottom">
           <div class="container footer-bottom-flex">
             <p>جميع الحقوق محفوظة © 2026 لـ متجر منصتي | Manasati Store</p>
-            <div class="payment-methods">
+            <div class="payment-methods" id="payment-methods-section">
               <span class="pay-tag kuraimi-pay"><i class="fa-solid fa-building-columns"></i> حاسب / الكريمي</span>
               <span class="pay-tag ewallet-pay"><i class="fa-solid fa-qrcode"></i> المحافظ الإلكترونية</span>
               <span class="pay-tag mobile-pay"><i class="fa-solid fa-mobile-screen-button"></i> جيب / جوالي</span>

@@ -74,7 +74,8 @@ class ManasatiApp {
     this.cart = this.loadFromStorage(this.getCartStorageKey(), []);
     this.orders = this.loadFromStorage("manasati_orders", []);
 
-    this.currentRole = 'user'; // 'user' or 'admin'
+    const savedRole = localStorage.getItem("manasati_role");
+    this.currentRole = (this.currentUser && this.currentUser.role === 'admin' && savedRole === 'admin') ? 'admin' : 'user';
     this.activeCategory = 'all';
     this.searchQuery = '';
     this.sortBy = 'popular';
@@ -86,6 +87,7 @@ class ManasatiApp {
     if (this.currentUser && this.currentUser.role === 'admin') {
       this.loadOrdersFromDB();
     }
+    this.switchRole(this.currentRole, true);
     this.render();
   }
 
@@ -203,6 +205,31 @@ class ManasatiApp {
       });
     }
 
+    // Close Dropdown menus & Modals when clicking outside
+    document.addEventListener("click", () => {
+      document.querySelectorAll(".dropdown-menu-card").forEach(m => m.classList.remove("show"));
+    });
+
+    // Global ESC Key Listener for All Modals
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") {
+        this.closeLoginModal();
+        this.closeCart();
+        this.closeCheckout();
+        this.closeProductModal();
+        this.closeMobileNavDrawer();
+      }
+    });
+
+    // Close Modals when clicking dark overlay backdrop
+    document.querySelectorAll(".modal-overlay").forEach(overlay => {
+      overlay.addEventListener("click", (e) => {
+        if (e.target === overlay) {
+          overlay.style.display = "none";
+        }
+      });
+    });
+
     // Category Buttons Listener
     const catPills = document.querySelectorAll(".cat-pill");
     catPills.forEach(pill => {
@@ -214,6 +241,64 @@ class ManasatiApp {
         this.renderServices();
       });
     });
+  }
+
+  // Header Expandable Search Toggle
+  toggleHeaderSearch(event) {
+    if (event) event.stopPropagation();
+    const searchBox = document.getElementById("header-search-expandable");
+    if (!searchBox) return;
+
+    searchBox.classList.toggle("active");
+    if (searchBox.classList.contains("active")) {
+      const input = document.getElementById("search-input");
+      if (input) input.focus();
+    }
+  }
+
+  // Side Navigation Drawer Toggle (Menu ☰)
+  toggleMobileNavDrawer(event) {
+    if (event) event.stopPropagation();
+    const overlay = document.getElementById("side-drawer-overlay");
+    if (overlay) {
+      overlay.classList.add("show");
+    }
+  }
+
+  closeMobileNavDrawer() {
+    const overlay = document.getElementById("side-drawer-overlay");
+    if (overlay) {
+      overlay.classList.remove("show");
+    }
+  }
+
+  selectCategoryFromDrawer(category, event) {
+    if (event) event.preventDefault();
+    this.filterCategory(category);
+    this.closeMobileNavDrawer();
+  }
+
+  // Categories Dropdown Toggle Handler
+  toggleCategoriesDropdown(event) {
+    if (event) event.stopPropagation();
+    const menu = document.getElementById("categories-dropdown-menu");
+    if (!menu) return;
+
+    const isVisible = menu.classList.contains("show");
+    document.querySelectorAll(".dropdown-menu-card").forEach(m => m.classList.remove("show"));
+    
+    if (!isVisible) {
+      menu.classList.add("show");
+    }
+  }
+
+  // Select Category from Header Dropdown Menu
+  selectCategoryFromDropdown(category, event) {
+    if (event) event.preventDefault();
+    this.filterCategory(category);
+    
+    const menu = document.getElementById("categories-dropdown-menu");
+    if (menu) menu.classList.remove("show");
   }
 
   // ==========================================
@@ -264,40 +349,72 @@ class ManasatiApp {
 
 
 
+  // Handle Header User Icon Click when logged in vs logged out
+  handleUserHeaderClick() {
+    if (!this.currentUser) {
+      this.openLoginModal('login');
+      return;
+    }
+
+    if (this.currentUser.role === 'admin') {
+      const nextRole = this.currentRole === 'admin' ? 'user' : 'admin';
+      this.switchRole(nextRole);
+    } else {
+      this.showToast(`👤 مرحباً بك ${this.currentUser.name}! أنت مسجل كمشترك نشط في منصتي.`, "info");
+    }
+  }
+
   // ==========================================
   // AUTH & STRICT ROLE PERMISSIONS SYSTEM
   // ==========================================
   updateAuthUI() {
+    const userHeaderIcon = document.getElementById("user-header-icon");
+
     if (this.currentUser) {
       if (this.loggedOutActions) this.loggedOutActions.style.display = "none";
       if (this.loggedUserInfo) this.loggedUserInfo.style.display = "flex";
       if (this.userDisplayName) this.userDisplayName.textContent = this.currentUser.name;
 
-      if (this.userRoleBadge) {
-        if (this.currentUser.role === 'admin') {
+      if (this.currentUser.role === 'admin') {
+        if (this.userRoleBadge) {
           this.userRoleBadge.textContent = " (Admin)";
           this.userRoleBadge.className = "user-role-badge admin";
-          if (this.roleAdminBtn) this.roleAdminBtn.style.display = "inline-flex"; // SHOW Admin page button ONLY for Admin
-        } else {
+        }
+        if (this.roleAdminBtn) this.roleAdminBtn.style.display = "inline-flex";
+        if (userHeaderIcon) userHeaderIcon.className = "fa-solid fa-user-shield text-amber";
+      } else {
+        if (this.userRoleBadge) {
           this.userRoleBadge.textContent = "مشترك";
           this.userRoleBadge.className = "user-role-badge";
-          if (this.roleAdminBtn) this.roleAdminBtn.style.display = "none"; // HIDE Admin page button for regular users!
-          if (this.currentRole === 'admin') {
-            this.switchRole('user'); // Force revert to user view if non-admin
-          }
         }
+        if (this.roleAdminBtn) this.roleAdminBtn.style.display = "none";
+        if (userHeaderIcon) userHeaderIcon.className = "fa-solid fa-user-check text-green";
+        if (this.currentRole === 'admin') {
+          this.switchRole('user');
+        }
+      }
+
+      const drawerAdminLink = document.getElementById("drawer-admin-link");
+      if (drawerAdminLink) {
+        drawerAdminLink.style.display = (this.currentUser.role === 'admin') ? "flex" : "none";
       }
     } else {
       if (this.loggedOutActions) this.loggedOutActions.style.display = "flex";
       if (this.loggedUserInfo) this.loggedUserInfo.style.display = "none";
-      if (this.roleAdminBtn) this.roleAdminBtn.style.display = "none"; // HIDE Admin page button for guests!
+      if (this.roleAdminBtn) this.roleAdminBtn.style.display = "none";
+      const drawerAdminLink = document.getElementById("drawer-admin-link");
+      if (drawerAdminLink) drawerAdminLink.style.display = "none";
       if (this.currentRole === 'admin') {
-        this.switchRole('user'); // Force revert to user view if guest
+        this.switchRole('user');
       }
     }
   }
 
   openLoginModal(mode = 'login') {
+    if (this.currentUser) {
+      this.showToast(`أنت مسجل الدخول بالفعل باسم "${this.currentUser.name}" (${this.currentUser.role === 'admin' ? 'مدير المتجر' : 'مشترك'})`, "info");
+      return;
+    }
     const modal = document.getElementById("login-modal-overlay");
     if (modal) {
       modal.style.display = "flex";
@@ -449,6 +566,7 @@ class ManasatiApp {
     this.currentUser = null;
     localStorage.removeItem("manasati_token");
     localStorage.removeItem("manasati_user");
+    localStorage.removeItem("manasati_role");
     this.updateAuthUI();
     this.reloadUserCartAndOrders();
     this.switchRole('user');
@@ -456,11 +574,12 @@ class ManasatiApp {
   }
 
   // Switch between Customer Front Store & Admin Dashboard (Permission Guarded)
-  switchRole(role) {
+  switchRole(role, silent = false) {
     if (role === 'admin') {
       if (!this.currentUser || this.currentUser.role !== 'admin') {
+        localStorage.setItem("manasati_role", "user");
         if (this.roleAdminBtn) this.roleAdminBtn.style.display = "none";
-        this.showToast("🔒 غير مصرح لك. صفحة الإدارة مخصصة للمسؤول (Admin) فقط.", "error");
+        if (!silent) this.showToast("🔒 غير مصرح لك. صفحة الإدارة مخصصة للمسؤول (Admin) فقط.", "error");
         this.openLoginModal('login');
         this.currentRole = 'user';
         if (this.roleAdminBtn) this.roleAdminBtn.classList.remove("active");
@@ -471,6 +590,7 @@ class ManasatiApp {
       }
 
       this.currentRole = 'admin';
+      localStorage.setItem("manasati_role", "admin");
       if (this.roleUserBtn) this.roleUserBtn.classList.remove("active");
       if (this.roleAdminBtn) {
         this.roleAdminBtn.classList.add("active");
@@ -480,15 +600,16 @@ class ManasatiApp {
       if (this.adminView) this.adminView.style.display = "block";
       this.loadOrdersFromDB();
       this.renderAdminDashboard();
-      this.showToast("مرحباً بك في لوحة التحكم والإدارة 🛡️", "info");
+      if (!silent) this.showToast("مرحباً بك في لوحة التحكم والإدارة 🛡️", "info");
     } else {
       this.currentRole = 'user';
+      localStorage.setItem("manasati_role", "user");
       if (this.roleAdminBtn) this.roleAdminBtn.classList.remove("active");
       if (this.roleUserBtn) this.roleUserBtn.classList.add("active");
       if (this.adminView) this.adminView.style.display = "none";
       if (this.storefrontView) this.storefrontView.style.display = "block";
       this.renderServices();
-      this.showToast("تم التبديل إلى واجهة المتجر الرئيسية 🏪", "info");
+      if (!silent) this.showToast("تم التبديل إلى واجهة المتجر الرئيسية 🏪", "info");
     }
   }
 
@@ -509,8 +630,39 @@ class ManasatiApp {
       .trim();
   }
 
-  // Instant Category Filter (from footer links, header, or quick buttons)
+  // Navigate to any section smoothly with visual pulse highlight effect
+  navigateToSection(sectionId, event = null) {
+    if (event) event.preventDefault();
+
+    // If currently viewing Admin Dashboard, automatically switch to Storefront View first!
+    if (this.currentRole === 'admin' || (this.adminView && this.adminView.style.display !== 'none')) {
+      this.switchRole('user', true);
+    }
+
+    this.closeMobileNavDrawer();
+
+    const targetEl = document.getElementById(sectionId);
+    if (targetEl) {
+      targetEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+      // Add glowing pulse animation
+      targetEl.classList.remove('section-pulse-active');
+      void targetEl.offsetWidth;
+      targetEl.classList.add('section-pulse-active');
+
+      setTimeout(() => {
+        targetEl.classList.remove('section-pulse-active');
+      }, 2000);
+    }
+  }
+
+  // Instant Category Filter (from footer links, header, drawer, or quick buttons)
   filterCategory(category) {
+    // If currently viewing Admin Dashboard, automatically switch to Storefront View first!
+    if (this.currentRole === 'admin' || (this.adminView && this.adminView.style.display !== 'none')) {
+      this.switchRole('user', true);
+    }
+
     this.activeCategory = category;
     
     // Update Cat Pills Active state
@@ -531,6 +683,10 @@ class ManasatiApp {
 
   // Reset Search & Category Filters
   resetFilters() {
+    if (this.currentRole === 'admin' || (this.adminView && this.adminView.style.display !== 'none')) {
+      this.switchRole('user', true);
+    }
+
     this.searchQuery = '';
     this.activeCategory = 'all';
     if (this.searchInput) this.searchInput.value = '';
