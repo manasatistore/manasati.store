@@ -272,7 +272,7 @@ class ManasatiApp {
 
       if (this.userRoleBadge) {
         if (this.currentUser.role === 'admin') {
-          this.userRoleBadge.textContent = "مسؤول (Admin)";
+          this.userRoleBadge.textContent = " (Admin)";
           this.userRoleBadge.className = "user-role-badge admin";
           if (this.roleAdminBtn) this.roleAdminBtn.style.display = "inline-flex"; // SHOW Admin page button ONLY for Admin
         } else {

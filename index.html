@@ -65,10 +65,10 @@
         <div id="auth-user-container" class="auth-user-container">
           <div id="logged-out-actions" class="logged-out-actions" style="display: flex; gap: 6px;">
             <button class="btn btn-outline-primary btn-sm" id="open-login-btn" onclick="app.openLoginModal('login')">
-              <i class="fa-solid fa-right-to-bracket"></i> تسجيل الدخول
+              <i class="fa-solid fa-right-to-bracket"></i>
             </button>
             <button class="btn btn-primary btn-sm" id="open-register-btn" onclick="app.openLoginModal('register')">
-              <i class="fa-solid fa-user-plus"></i> حساب جديد
+              <i class="fa-solid fa-user-plus"></i>
             </button>
           </div>
           <div id="logged-user-info" class="logged-user-info" style="display: none; align-items: center; gap: 8px;">
@@ -76,7 +76,7 @@
             <span class="user-role-badge" id="user-role-badge">مشترك</span>
             <button class="btn btn-outline-danger btn-sm logout-btn" title="تسجيل الخروج والرجوع كزائر"
               onclick="app.logout()">
-              <i class="fa-solid fa-right-from-bracket"></i> تسجيل الخروج
+              <i class="fa-solid fa-right-from-bracket"></i>
             </button>
           </div>
         </div>
@@ -85,10 +85,10 @@
         <!-- Role Switcher (Customer / Admin) -->
         <div class="role-switcher-container">
           <button class="role-btn active" id="role-user-btn" onclick="app.switchRole('user')">
-            <i class="fa-solid fa-store"></i> المتجر الرئيسي
+            <i class="fa-solid fa-store"></i>
           </button>
           <button class="role-btn" id="role-admin-btn" onclick="app.switchRole('admin')" style="display: none;">
-            <i class="fa-solid fa-user-shield"></i> لوحة الإدارة
+            <i class="fa-solid fa-user-shield"></i>
           </button>
         </div>
 
@@ -96,7 +96,7 @@
         <!-- Cart Button -->
         <button class="cart-trigger-btn" id="cart-trigger-btn" onclick="app.openCart()">
           <i class="fa-solid fa-cart-shopping"></i>
-          <span class="cart-label">السلة</span>
+          <span class="cart-label"></span>
           <span class="cart-badge" id="cart-badge-count">0</span>
         </button>
       </div>
