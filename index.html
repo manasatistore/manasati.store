@@ -160,9 +160,9 @@
           <i class="fa-solid fa-compass text-cyan"></i> روابط سريعة للمتجر
         </h4>
         <div class="drawer-menu-list">
-          <a href="#" class="drawer-item" onclick="app.navigateToSection('services-section', event)">
+          <!-- <a href="#" class="drawer-item" onclick="app.navigateToSection('services-section', event)">
             <i class="fa-solid fa-store text-purple"></i> تصفح جميع الاشتراكات
-          </a>
+          </a> -->
           <a href="#" class="drawer-item" onclick="app.navigateToSection('trust-section', event)">
             <i class="fa-solid fa-shield-halved text-green"></i> ضمان منصتي والتفعيل الرسمي
           </a>
@@ -175,7 +175,8 @@
           <a href="#" class="drawer-item" onclick="app.navigateToSection('payment-methods-section', event)">
             <i class="fa-solid fa-credit-card text-pink"></i> وسائل الدفع المتاحة في اليمن
           </a>
-          <a href="#" class="drawer-item" id="drawer-admin-link" onclick="app.switchRole('admin'); app.closeMobileNavDrawer();" style="display: none;">
+          <a href="#" class="drawer-item" id="drawer-admin-link"
+            onclick="app.switchRole('admin'); app.closeMobileNavDrawer();" style="display: none;">
             <i class="fa-solid fa-user-shield text-amber"></i> لوحة التحكم والإدارة
           </a>
         </div>
@@ -381,11 +382,15 @@
           <div class="footer-links">
             <h4>روابط سريعة</h4>
             <ul>
-              <li><a href="#" onclick="app.navigateToSection('services-section', event)">تصفح الاشتراكات الرقمية</a></li>
-              <li><a href="#" onclick="app.navigateToSection('trust-section', event)">ضمان منصتي والتفعيل الرسمي</a></li>
+              <li><a href="#" onclick="app.navigateToSection('services-section', event)">تصفح الاشتراكات الرقمية</a>
+              </li>
+              <li><a href="#" onclick="app.navigateToSection('trust-section', event)">ضمان منصتي والتفعيل الرسمي</a>
+              </li>
               <li><a href="#" onclick="app.navigateToSection('reviews-section', event)">آراء وتقييمات المشتركين</a></li>
-              <li><a href="#" onclick="app.navigateToSection('footer-contact-section', event)">الدعم الفني والواتساب</a></li>
-              <li><a href="#" onclick="app.navigateToSection('payment-methods-section', event)">وسائل الدفع المتاحة</a></li>
+              <li><a href="#" onclick="app.navigateToSection('footer-contact-section', event)">الدعم الفني والواتساب</a>
+              </li>
+              <li><a href="#" onclick="app.navigateToSection('payment-methods-section', event)">وسائل الدفع المتاحة</a>
+              </li>
             </ul>
           </div>
           <div class="footer-contact" id="footer-contact-section">
