@@ -135,15 +135,17 @@
 
     </div>
 
-    <!-- Expandable Search Input Bar -->
+    <!-- Expandable Search Input Bar with Live Results -->
     <div class="header-search-expandable" id="header-search-expandable">
       <div class="container search-expandable-inner">
         <i class="fa-solid fa-magnifying-glass search-icon"></i>
-        <input type="text" id="search-input" placeholder="ابحث عن اشتراك (نتفليكس، شاهد، ChatGPT، كانفا...)"
+        <input type="text" id="search-input" placeholder="ابحث فوري عن اشتراك (نتفليكس، شاهد، ChatGPT، كانفا...)"
           autocomplete="off">
-        <button class="clear-search-btn" id="clear-search-btn" style="display: none;">
+        <button class="clear-search-btn" id="clear-search-btn" style="display: none;" title="مسح البحث">
           <i class="fa-solid fa-xmark"></i>
         </button>
+        <!-- Live Instant Search Dropdown Panel -->
+        <div class="search-live-results" id="search-live-results" style="display: none;"></div>
       </div>
     </div>
   </header>
@@ -936,7 +938,24 @@
   <!-- TOAST NOTIFICATIONS CONTAINER -->
   <div id="toast-container" class="toast-container"></div>
 
-
+  <!-- FLOATING WHATSAPP ACTION BUTTON (FAB) -->
+  <div class="whatsapp-fab-container" id="whatsapp-fab">
+    <div class="whatsapp-tooltip">
+      <div class="whatsapp-tooltip-header">
+        <span class="online-indicator"></span>
+        <span>الدعم الفني متواجد الآن</span>
+      </div>
+      <div class="whatsapp-tooltip-body">
+        مرحباً بك! 👋 هل تحتاج مساعدة في اختيار أو تفعيل أي اشتراك؟
+      </div>
+    </div>
+    <a href="https://wa.me/967730688720?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D9%8B%20%D9%85%D9%86%D8%B5%D8%AA%D9%8A%D8%8C%20%D8%A3%D9%88%D8%AF%20%D8%A7%D9%84%D8%A7%D8%B3%D8%AA%D9%81%D8%B3%D8%A7%D8%B1%20%D8%B9%D9%86%20%D8%A7%D9%84%D8%AE%D8%AF%D9%85%D8%A7%D8%AA%20%D9%88%D8%A7%D9%84%D8%A7%D8%B4%D8%AA%D8%B1%D8%A7%D9%83%D8%A7%D8%AA"
+       target="_blank" rel="noopener noreferrer" class="whatsapp-fab-btn" aria-label="تواصل معنا عبر الواتساب">
+      <div class="whatsapp-pulse"></div>
+      <i class="fa-brands fa-whatsapp whatsapp-icon"></i>
+      <span class="whatsapp-badge-dot"></span>
+    </a>
+  </div>
 
   <!-- Application JS -->
   <script src="app.js"></script>

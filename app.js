@@ -182,19 +182,37 @@ class ManasatiApp {
 
   // Event Listeners Registration
   bindEvents() {
-    // Ultra-Fast Real-Time Search Listener
+    // Ultra-Fast Real-Time Search Listener with Instant Live Results Dropdown
     if (this.searchInput) {
       this.searchInput.addEventListener("input", (e) => {
         this.searchQuery = e.target.value.trim();
         if (this.clearSearchBtn) {
           this.clearSearchBtn.style.display = this.searchQuery ? "block" : "none";
         }
-        window.requestAnimationFrame(() => this.renderServices());
+
+        // Auto-switch category filter to 'all' when user types so search covers all products
+        if (this.searchQuery) {
+          this.activeCategory = 'all';
+          document.querySelectorAll(".cat-pill").forEach(p => {
+            p.classList.toggle("active", p.getAttribute("data-category") === 'all');
+          });
+        }
+
+        window.requestAnimationFrame(() => {
+          this.renderLiveSearchResults();
+          this.renderServices();
+        });
       });
 
       this.searchInput.addEventListener("keydown", (e) => {
         if (e.key === "Escape") {
           this.resetFilters();
+        } else if (e.key === "Enter") {
+          this.closeLiveSearchResults();
+          const servicesSec = document.getElementById("services-grid") || document.querySelector(".services-section");
+          if (servicesSec) {
+            servicesSec.scrollIntoView({ behavior: "smooth", block: "start" });
+          }
         }
       });
     }
@@ -205,9 +223,13 @@ class ManasatiApp {
       });
     }
 
-    // Close Dropdown menus & Modals when clicking outside
-    document.addEventListener("click", () => {
+    // Close Dropdown menus & Live Search Panel when clicking outside
+    document.addEventListener("click", (e) => {
       document.querySelectorAll(".dropdown-menu-card").forEach(m => m.classList.remove("show"));
+      const searchBox = document.getElementById("header-search-expandable");
+      if (searchBox && !searchBox.contains(e.target)) {
+        this.closeLiveSearchResults();
+      }
     });
 
     // Global ESC Key Listener for All Modals
@@ -686,6 +708,108 @@ class ManasatiApp {
     }
   }
 
+  // Arabic Text Normalizer for ultra-accurate instant search matching
+  normalizeArabicText(text) {
+    if (text === null || text === undefined) return '';
+    return text.toString().toLowerCase()
+      .replace(/[\u064B-\u065F]/g, "") // Remove Tashkeel (diacritics)
+      .replace(/[أإآء]/g, "ا")       // Normalize Alef variations
+      .replace(/ة/g, "ه")           // Normalize Taa Marboota
+      .replace(/ى/g, "ي")           // Normalize Alef Maqsoora
+      .replace(/گ/g, "ك")
+      .replace(/پ/g, "ب")
+      .replace(/ژ/g, "ز")
+      .replace(/چ/g, "ج")
+      .trim();
+  }
+
+  // Highlight matched search term in title
+  highlightMatch(text, query) {
+    if (!text) return '';
+    if (!query) return text;
+    const qNorm = this.normalizeArabicText(query);
+    if (!qNorm) return text;
+
+    const words = query.trim().split(/\s+/).filter(Boolean);
+    let result = text;
+    words.forEach(w => {
+      const reg = new RegExp(`(${w})`, 'gi');
+      result = result.replace(reg, '<span class="search-highlight">$1</span>');
+    });
+    return result;
+  }
+
+  // Render Instant Floating Live Search Overlay Results
+  renderLiveSearchResults() {
+    const liveResultsContainer = document.getElementById("search-live-results");
+    if (!liveResultsContainer) return;
+
+    const qNorm = this.normalizeArabicText(this.searchQuery);
+    if (!qNorm) {
+      liveResultsContainer.style.display = 'none';
+      liveResultsContainer.innerHTML = '';
+      return;
+    }
+
+    const matches = this.services.filter(srv => {
+      const titleNorm = this.normalizeArabicText(srv.title);
+      const descNorm = this.normalizeArabicText(srv.description);
+      const badgeNorm = this.normalizeArabicText(srv.badge);
+      const catLabelNorm = this.normalizeArabicText(this.getCategoryLabel(srv.category));
+
+      return titleNorm.includes(qNorm) ||
+             descNorm.includes(qNorm) ||
+             badgeNorm.includes(qNorm) ||
+             catLabelNorm.includes(qNorm);
+    }).slice(0, 6); // Top 6 instant matches for maximum performance
+
+    liveResultsContainer.style.display = 'block';
+
+    if (matches.length === 0) {
+      liveResultsContainer.innerHTML = `
+        <div class="live-search-empty">
+          <i class="fa-solid fa-magnifying-glass" style="font-size:24px; margin-bottom:8px; display:block; color:var(--text-muted);"></i>
+          لا توجد خدمات تطابق "<strong>${this.searchQuery}</strong>"
+        </div>
+      `;
+      return;
+    }
+
+    liveResultsContainer.innerHTML = `
+      <div class="live-search-header">
+        <span><i class="fa-solid fa-bolt text-cyan"></i> نتائج البحث السريعة (${matches.length})</span>
+        <span style="font-weight: 500; font-size: 11px;">اضغط للاكتشاف الفوري</span>
+      </div>
+      <div class="live-search-list">
+        ${matches.map(srv => `
+          <div class="live-search-item" onclick="app.selectLiveSearchResult('${srv.id}')">
+            <img src="${srv.image}" alt="${srv.title}" class="live-search-img" onerror="this.src='https://images.unsplash.com/photo-1574375927938-d5a98e8ffe85?w=500&auto=format&fit=crop&q=80'">
+            <div class="live-search-info">
+              <div class="live-search-title">${this.highlightMatch(srv.title, this.searchQuery)}</div>
+              <div class="live-search-meta">
+                <span class="live-search-badge">${this.getCategoryLabel(srv.category)}</span>
+                <span><i class="fa-solid fa-bolt text-cyan"></i> ${srv.delivery}</span>
+              </div>
+            </div>
+            <div class="live-search-price">${srv.price} ر.س</div>
+          </div>
+        `).join('')}
+      </div>
+    `;
+  }
+
+  selectLiveSearchResult(serviceId) {
+    this.closeLiveSearchResults();
+    this.openProductModal(serviceId);
+  }
+
+  closeLiveSearchResults() {
+    const liveResultsContainer = document.getElementById("search-live-results");
+    if (liveResultsContainer) {
+      liveResultsContainer.style.display = 'none';
+    }
+  }
+
   // Reset Search & Category Filters
   resetFilters() {
     if (this.currentRole === 'admin' || (this.adminView && this.adminView.style.display !== 'none')) {
@@ -696,6 +820,8 @@ class ManasatiApp {
     this.activeCategory = 'all';
     if (this.searchInput) this.searchInput.value = '';
     if (this.clearSearchBtn) this.clearSearchBtn.style.display = 'none';
+
+    this.closeLiveSearchResults();
 
     document.querySelectorAll(".cat-pill").forEach(p => {
       p.classList.toggle("active", p.getAttribute("data-category") === 'all');
