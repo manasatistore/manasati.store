@@ -28,7 +28,7 @@
 <body>
 
   <!-- Top Eye-Catching Animated Announcement Bar -->
-  <div class="announcement-bar marquee-bar">
+  <!-- <div class="announcement-bar marquee-bar">
     <div class="marquee-track">
       <div class="marquee-content">
         <span class="marquee-item"><i class="fa-solid fa-fire text-amber"></i> <strong>عروض حصريّة بمناسبة الإطلاق
@@ -44,24 +44,24 @@
         <span class="marquee-item highlight-badge"><i class="fa-solid fa-bolt text-cyan"></i> <strong>تسليم آلي فوري
             24/7</strong></span>
         <span class="marquee-divider">•</span>
-      </div>
-      <!-- Duplicate content for infinite seamless marquee loop -->
-      <div class="marquee-content" aria-hidden="true">
-        <span class="marquee-item"><i class="fa-solid fa-fire text-amber"></i> <strong>عروض حصريّة بمناسبة الإطلاق
-            🔥</strong> خصومات تصل إلى <strong>40%</strong> على كافة الاشتراكات الرقمية</span>
-        <span class="marquee-item highlight-badge"><i class="fa-solid fa-bolt text-cyan"></i> <strong>تسليم آلي فوري
-            24/7</strong></span>
-        <span class="marquee-divider">•</span>
-        <span class="marquee-item"><i class="fa-solid fa-shield-halved text-green"></i> <strong>ضمان ذهبي شامل
-            100%</strong> طوال فترة الاشتراك</span>
-        <span class="marquee-divider">•</span>
-        <span class="marquee-item"><i class="fa-solid fa-fire text-amber"></i> <strong>عروض حصريّة بمناسبة الإطلاق
-            🔥</strong> خصومات تصل إلى <strong>40%</strong> على كافة الاشتراكات الرقمية</span>
-        <span class="marquee-item highlight-badge"><i class="fa-solid fa-bolt text-cyan"></i> <strong>تسليم آلي فوري
-            24/7</strong></span>
-        <span class="marquee-divider">•</span>
-      </div>
-    </div>
+      </div> -->
+  <!-- Duplicate content for infinite seamless marquee loop -->
+  <!-- <div class="marquee-content" aria-hidden="true">
+    <span class="marquee-item"><i class="fa-solid fa-fire text-amber"></i> <strong>عروض حصريّة بمناسبة الإطلاق
+        🔥</strong> خصومات تصل إلى <strong>40%</strong> على كافة الاشتراكات الرقمية</span>
+    <span class="marquee-item highlight-badge"><i class="fa-solid fa-bolt text-cyan"></i> <strong>تسليم آلي فوري
+        24/7</strong></span>
+    <span class="marquee-divider">•</span>
+    <span class="marquee-item"><i class="fa-solid fa-shield-halved text-green"></i> <strong>ضمان ذهبي شامل
+        100%</strong> طوال فترة الاشتراك</span>
+    <span class="marquee-divider">•</span>
+    <span class="marquee-item"><i class="fa-solid fa-fire text-amber"></i> <strong>عروض حصريّة بمناسبة الإطلاق
+        🔥</strong> خصومات تصل إلى <strong>40%</strong> على كافة الاشتراكات الرقمية</span>
+    <span class="marquee-item highlight-badge"><i class="fa-solid fa-bolt text-cyan"></i> <strong>تسليم آلي فوري
+        24/7</strong></span>
+    <span class="marquee-divider">•</span>
+  </div> -->
+  </div>
   </div>
 
   <!-- Main Navigation Header (Centered Logo Layout) -->
@@ -164,52 +164,100 @@
       </div>
 
       <div class="drawer-body">
-        <h4 class="drawer-section-title"><i class="fa-solid fa-layer-group text-purple"></i> أقسام الاشتراكات</h4>
+        <h4 class="drawer-section-title">
+          <i class="fa-solid fa-layer-group text-purple"></i> <span data-i18n="drawer_cats">أقسام الاشتراكات</span>
+        </h4>
         <div class="drawer-menu-list">
           <a href="#" class="drawer-item" onclick="app.selectCategoryFromDrawer('all', event)">
-            <i class="fa-solid fa-border-all text-purple"></i> جميع الخدمات والاشتراكات
+            <i class="fa-solid fa-border-all text-purple"></i> <span data-i18n="cat_all">جميع الخدمات والاشتراكات</span>
           </a>
           <a href="#" class="drawer-item" onclick="app.selectCategoryFromDrawer('entertainment', event)">
-            <i class="fa-solid fa-film text-pink"></i> اشتراكات الترفيه وسينما
+            <i class="fa-solid fa-film text-pink"></i> <span data-i18n="cat_entertainment">اشتراكات الترفيه
+              وسينما</span>
           </a>
           <a href="#" class="drawer-item" onclick="app.selectCategoryFromDrawer('ai', event)">
-            <i class="fa-solid fa-robot text-cyan"></i> الذكاء الاصطناعي والتصميم
+            <i class="fa-solid fa-robot text-cyan"></i> <span data-i18n="cat_ai">الذكاء الاصطناعي والتصميم</span>
           </a>
           <a href="#" class="drawer-item" onclick="app.selectCategoryFromDrawer('gaming', event)">
-            <i class="fa-solid fa-gamepad text-amber"></i> ألعاب وااشتراكات
+            <i class="fa-solid fa-gamepad text-amber"></i> <span data-i18n="cat_gaming">ألعاب واشتراكات</span>
           </a>
           <a href="#" class="drawer-item" onclick="app.selectCategoryFromDrawer('sports', event)">
-            <i class="fa-solid fa-trophy text-green"></i> رياضة وبث مباشر
+            <i class="fa-solid fa-trophy text-green"></i> <span data-i18n="cat_sports">رياضة وبث مباشر</span>
           </a>
           <a href="#" class="drawer-item" onclick="app.selectCategoryFromDrawer('music', event)">
-            <i class="fa-solid fa-music text-purple"></i> موسيقى وصوتيات
+            <i class="fa-solid fa-music text-purple"></i> <span data-i18n="cat_music">موسيقى وصوتيات</span>
           </a>
         </div>
 
         <h4 class="drawer-section-title margin-top-md" style="margin-top: 20px;">
-          <i class="fa-solid fa-compass text-cyan"></i> روابط سريعة للمتجر
+          <i class="fa-solid fa-compass text-cyan"></i> <span data-i18n="drawer_quick_links">روابط سريعة للمتجر</span>
         </h4>
         <div class="drawer-menu-list">
-          <!-- <a href="#" class="drawer-item" onclick="app.navigateToSection('services-section', event)">
-            <i class="fa-solid fa-store text-purple"></i> تصفح جميع الاشتراكات
-          </a> -->
           <a href="#" class="drawer-item" onclick="app.navigateToSection('trust-section', event)">
-            <i class="fa-solid fa-shield-halved text-green"></i> ضمان منصتي والتفعيل الرسمي
+            <i class="fa-solid fa-shield-halved text-green"></i> <span data-i18n="trust_title">ضمان منصتي والتفعيل
+              الرسمي</span>
           </a>
           <a href="#" class="drawer-item" onclick="app.navigateToSection('reviews-section', event)">
-            <i class="fa-solid fa-star text-amber"></i> آراء وتقييمات المشتركين
+            <i class="fa-solid fa-star text-amber"></i> <span data-i18n="reviews_title">آراء وتقييمات المشتركين</span>
           </a>
           <a href="#" class="drawer-item" onclick="app.navigateToSection('footer-contact-section', event)">
-            <i class="fa-solid fa-headset text-cyan"></i> الدعم الفني وتواصل معنا
+            <i class="fa-solid fa-headset text-cyan"></i> <span data-i18n="support_24">الدعم الفني وتواصل معنا</span>
           </a>
           <a href="#" class="drawer-item" onclick="app.navigateToSection('payment-methods-section', event)">
-            <i class="fa-solid fa-credit-card text-pink"></i> وسائل الدفع المتاحة في اليمن
+            <i class="fa-solid fa-credit-card text-pink"></i> <span data-i18n="payment_methods">وسائل الدفع
+              المتاحة</span>
           </a>
           <a href="#" class="drawer-item" id="drawer-admin-link"
             onclick="app.switchRole('admin'); app.closeMobileNavDrawer();" style="display: none;">
-            <i class="fa-solid fa-user-shield text-amber"></i> لوحة التحكم والإدارة
+            <i class="fa-solid fa-user-shield text-amber"></i> <span data-i18n="admin_panel">لوحة التحكم والإدارة</span>
           </a>
         </div>
+
+        <!-- NEW SETTINGS SECTION (الإعدادات والتفضيلات) -->
+        <div class="drawer-settings-card">
+          <h4 class="drawer-section-title">
+            <i class="fa-solid fa-sliders text-amber"></i> <span data-i18n="settings_title">إعدادات المتجر
+              والتفضيلات</span>
+          </h4>
+          <div class="settings-controls-grid">
+
+            <!-- Theme Switcher (داكن / نهاري) -->
+            <div class="setting-item-box">
+              <div class="setting-box-header">
+                <span class="setting-box-title"><i class="fa-solid fa-circle-half-stroke text-pink"></i> <span
+                    data-i18n="theme_mode">مظهر المتجر</span></span>
+                <span class="setting-badge" id="theme-status-badge">🌙 داكن</span>
+              </div>
+              <div class="segmented-control">
+                <button type="button" class="segmented-btn active" id="btn-theme-dark" onclick="app.setTheme('dark')">
+                  <i class="fa-solid fa-moon"></i> <span data-i18n="dark_mode">داكن 🌙</span>
+                </button>
+                <button type="button" class="segmented-btn" id="btn-theme-light" onclick="app.setTheme('light')">
+                  <i class="fa-solid fa-sun"></i> <span data-i18n="light_mode">نهاري ☀️</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Language Switcher (عربي / إنجليزي) -->
+            <div class="setting-item-box">
+              <div class="setting-box-header">
+                <span class="setting-box-title"><i class="fa-solid fa-globe text-cyan"></i> <span
+                    data-i18n="language">لغة العرض</span></span>
+                <span class="setting-badge" id="lang-status-badge">🇸🇦 العربية</span>
+              </div>
+              <div class="segmented-control">
+                <button type="button" class="segmented-btn active" id="btn-lang-ar" onclick="app.setLanguage('ar')">
+                  <span>🇸🇦 العربية</span>
+                </button>
+                <button type="button" class="segmented-btn" id="btn-lang-en" onclick="app.setLanguage('en')">
+                  <span>🇬🇧 English</span>
+                </button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
       </div>
     </div>
   </div>
@@ -258,6 +306,15 @@
               </div>
             </div>
           </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Products Toolbar Controls -->
+    <section class="controls-section">
+      <div class="container controls-wrapper">
+        <div class="controls-info">
+          <h2 class="section-heading" id="catalog-title" data-i18n="all_services">جميع الاشتراكات المتاحة</h2>
         </div>
       </div>
     </section>
@@ -950,7 +1007,7 @@
       </div>
     </div>
     <a href="https://wa.me/967730688720?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D9%8B%20%D9%85%D9%86%D8%B5%D8%AA%D9%8A%D8%8C%20%D8%A3%D9%88%D8%AF%20%D8%A7%D9%84%D8%A7%D8%B3%D8%AA%D9%81%D8%B3%D8%A7%D8%B1%20%D8%B9%D9%86%20%D8%A7%D9%84%D8%AE%D8%AF%D9%85%D8%A7%D8%AA%20%D9%88%D8%A7%D9%84%D8%A7%D8%B4%D8%AA%D8%B1%D8%A7%D9%83%D8%A7%D8%AA"
-       target="_blank" rel="noopener noreferrer" class="whatsapp-fab-btn" aria-label="تواصل معنا عبر الواتساب">
+      target="_blank" rel="noopener noreferrer" class="whatsapp-fab-btn" aria-label="تواصل معنا عبر الواتساب">
       <div class="whatsapp-pulse"></div>
       <i class="fa-brands fa-whatsapp whatsapp-icon"></i>
       <span class="whatsapp-badge-dot"></span>

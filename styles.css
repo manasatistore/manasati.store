@@ -222,7 +222,7 @@ a:hover {
   border-radius: 50%;
   background: var(--bg-card);
   border: 1px solid var(--border-color);
-  color: #ffffff;
+  color: var(--text-main);
   font-size: 17px;
   display: flex;
   align-items: center;
@@ -311,7 +311,7 @@ a:hover {
   border: 1px solid var(--border-purple);
   border-radius: var(--radius-full);
   padding: 12px 48px 12px 42px;
-  color: #ffffff;
+  color: var(--text-main);
   font-family: inherit;
   font-size: 15px;
   font-weight: 500;
@@ -442,7 +442,7 @@ a:hover {
 .live-search-title {
   font-size: 13.5px;
   font-weight: 700;
-  color: #ffffff;
+  color: var(--text-main);
   margin-bottom: 3px;
   white-space: nowrap;
   overflow: hidden;
@@ -571,7 +571,7 @@ a:hover {
   background: var(--bg-secondary);
   border: 1px solid var(--border-color);
   border-radius: var(--radius-md);
-  color: #ffffff;
+  color: var(--text-main);
   text-decoration: none;
   font-size: 14px;
   font-weight: 600;
@@ -609,7 +609,7 @@ a:hover {
   overflow: hidden;
   border: 1.5px solid rgba(139, 92, 246, 0.4);
   box-shadow: 0 0 15px rgba(139, 92, 246, 0.3);
-  background: #0d1322;
+  background: var(--bg-card);
   flex-shrink: 0;
   transition: all 0.3s ease;
 }
@@ -636,7 +636,7 @@ a:hover {
 .brand-name {
   font-size: 22px;
   font-weight: 800;
-  color: #ffffff;
+  color: var(--text-main);
   letter-spacing: -0.5px;
 }
 
@@ -760,7 +760,7 @@ a:hover {
   border: 1px solid var(--border-color);
   border-radius: var(--radius-full);
   padding: 11px 45px 11px 40px;
-  color: #ffffff;
+  color: var(--text-main);
   font-family: inherit;
   font-size: 14px;
   transition: var(--transition-fast);
@@ -832,7 +832,7 @@ a:hover {
   position: relative;
   background: linear-gradient(135deg, rgba(139, 92, 246, 0.15), rgba(6, 182, 212, 0.15));
   border: 1px solid var(--border-active);
-  color: #ffffff;
+  color: var(--text-main);
   padding: 8px 18px;
   border-radius: var(--radius-full);
   font-family: inherit;
@@ -3155,3 +3155,640 @@ a:hover {
     right: 15px !important;
   }
 }
+
+/* Hide WhatsApp FAB when Admin Dashboard ( المسؤول ) is active */
+body.admin-active .whatsapp-fab-container,
+body.admin-active #whatsapp-fab {
+  display: none !important;
+}
+
+/* ==========================================================================
+   DRAWER SETTINGS SECTION (قسم الإعدادات والتفضيلات)
+   ========================================================================== */
+.drawer-settings-card {
+  margin-top: 24px;
+  padding-top: 18px;
+  border-top: 1px solid var(--border-color);
+}
+
+.settings-controls-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 12px;
+}
+
+.setting-item-box {
+  background: rgba(30, 41, 59, 0.45);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  transition: var(--transition-fast);
+}
+
+.setting-item-box:hover {
+  border-color: var(--border-active);
+  background: rgba(30, 41, 59, 0.7);
+}
+
+.setting-box-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+.setting-box-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.setting-badge {
+  font-size: 11px;
+  font-weight: 700;
+  background: rgba(139, 92, 246, 0.15);
+  color: var(--accent-purple);
+  padding: 2px 8px;
+  border-radius: 20px;
+  border: 1px solid rgba(139, 92, 246, 0.3);
+}
+
+.segmented-control {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  background: rgba(15, 23, 42, 0.6);
+  padding: 4px;
+  border-radius: 12px;
+  gap: 4px;
+  border: 1px solid var(--border-color);
+}
+
+.segmented-btn {
+  border: none;
+  background: transparent;
+  color: var(--text-muted);
+  padding: 8px 10px;
+  border-radius: 8px;
+  font-size: 12.5px;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.segmented-btn:hover {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.segmented-btn.active {
+  background: linear-gradient(135deg, var(--accent-purple), var(--accent-indigo));
+  color: #ffffff !important;
+  box-shadow: 0 4px 15px rgba(139, 92, 246, 0.4);
+}
+
+/* ==========================================================================
+   ULTRA-PROFESSIONAL LIGHT MODE STYLING (الوضع النهاري المتكامل)
+   ========================================================================== */
+body.light-theme {
+  --bg-primary: #f8fafc;
+  --bg-secondary: #ffffff;
+  --bg-card: #ffffff;
+  --bg-card-hover: #f1f5f9;
+  --bg-glass: rgba(255, 255, 255, 0.95);
+  
+  --text-main: #0f172a;
+  --text-muted: #475569;
+  --text-dim: #64748b;
+  
+  --border-color: rgba(15, 23, 42, 0.12);
+  --border-active: rgba(139, 92, 246, 0.6);
+  --border-glass: rgba(15, 23, 42, 0.15);
+  
+  --shadow-card: 0 10px 30px -5px rgba(15, 23, 42, 0.06);
+  --shadow-glow: 0 0 25px rgba(139, 92, 246, 0.18);
+  
+  background-color: var(--bg-primary);
+  color: var(--text-main);
+  background-image: 
+    radial-gradient(circle at 15% 15%, rgba(139, 92, 246, 0.07) 0%, transparent 40%),
+    radial-gradient(circle at 85% 75%, rgba(6, 182, 212, 0.05) 0%, transparent 40%);
+}
+
+/* Header & Navigation in Light Mode */
+body.light-theme .main-header {
+  background: rgba(255, 255, 255, 0.94);
+  border-bottom: 1px solid rgba(15, 23, 42, 0.08);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+}
+
+body.light-theme .nav-icon-btn {
+  background: #ffffff;
+  border-color: rgba(15, 23, 42, 0.12);
+  color: #0f172a;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+body.light-theme .nav-icon-btn:hover {
+  background: #f1f5f9;
+  border-color: var(--accent-purple);
+  color: var(--accent-purple);
+}
+
+body.light-theme .cart-badge-red {
+  border-color: #ffffff;
+}
+
+body.light-theme .brand-name {
+  color: #0f172a;
+}
+
+body.light-theme .logo-icon-wrapper {
+  background: #ffffff;
+  border-color: rgba(139, 92, 246, 0.3);
+  box-shadow: 0 4px 15px rgba(139, 92, 246, 0.12);
+}
+
+body.light-theme .header-search-expandable {
+  background: #ffffff;
+  border-bottom: 1px solid rgba(15, 23, 42, 0.08);
+}
+
+body.light-theme .search-expandable-inner input {
+  background: #f8fafc;
+  border-color: rgba(139, 92, 246, 0.3);
+  color: #0f172a;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
+}
+
+body.light-theme .search-expandable-inner input::placeholder {
+  color: #94a3b8;
+}
+
+body.light-theme .search-live-results {
+  background: rgba(255, 255, 255, 0.98);
+  border-color: rgba(139, 92, 246, 0.3);
+  box-shadow: 0 25px 50px rgba(15, 23, 42, 0.15);
+}
+
+body.light-theme .live-search-item {
+  background: #f8fafc;
+  border-color: rgba(15, 23, 42, 0.08);
+}
+
+body.light-theme .live-search-item:hover {
+  background: #f1f5f9;
+  border-color: rgba(139, 92, 246, 0.4);
+}
+
+body.light-theme .live-search-title {
+  color: #0f172a;
+}
+
+/* Announcement Marquee Bar */
+body.light-theme .announcement-bar {
+  background: linear-gradient(90deg, #1e1b4b, #312e81, #1e1b4b);
+  color: #ffffff;
+}
+
+/* Hero Section */
+body.light-theme .hero-section {
+  background: linear-gradient(135deg, #eff6ff 0%, #f5f3ff 50%, #faf5ff 100%);
+  border-bottom: 1px solid rgba(139, 92, 246, 0.12);
+}
+
+body.light-theme .hero-card {
+  background: #ffffff;
+  border-color: rgba(139, 92, 246, 0.2);
+  box-shadow: 0 20px 45px rgba(15, 23, 42, 0.06);
+}
+
+body.light-theme .hero-card h1 {
+  color: #0f172a;
+}
+
+body.light-theme .hero-card p {
+  color: #475569;
+}
+
+body.light-theme .hero-feature-item {
+  background: #ffffff;
+  border-color: rgba(15, 23, 42, 0.08);
+  color: #1e293b;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+}
+
+/* Category Filter Pills */
+body.light-theme .cat-pill {
+  background: #ffffff;
+  border-color: rgba(15, 23, 42, 0.12);
+  color: #475569;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+}
+
+body.light-theme .cat-pill:hover {
+  background: #f1f5f9;
+  color: #0f172a;
+  border-color: rgba(139, 92, 246, 0.4);
+}
+
+body.light-theme .cat-pill.active {
+  background: linear-gradient(135deg, var(--accent-purple), var(--accent-indigo));
+  color: #ffffff !important;
+  box-shadow: 0 6px 20px rgba(139, 92, 246, 0.35);
+}
+
+/* Products Cards */
+body.light-theme .product-card {
+  background: #ffffff;
+  border-color: rgba(15, 23, 42, 0.08);
+  box-shadow: 0 8px 25px rgba(15, 23, 42, 0.05);
+}
+
+body.light-theme .product-card:hover {
+  border-color: var(--accent-purple);
+  box-shadow: 0 16px 35px rgba(139, 92, 246, 0.16);
+}
+
+body.light-theme .product-card .card-title {
+  color: #0f172a;
+}
+
+body.light-theme .card-guarantee-tag {
+  background: #f0fdf4;
+  color: #15803d;
+  border-color: #bbf7d0;
+}
+
+body.light-theme .card-period-tag {
+  background: #f1f5f9;
+  color: #475569;
+}
+
+body.light-theme .price-old {
+  color: #94a3b8;
+}
+
+body.light-theme .price-current {
+  color: #7c3aed;
+}
+
+/* Side Drawers & Cart */
+body.light-theme .side-drawer-card,
+body.light-theme .modal-card,
+body.light-theme .cart-drawer {
+  background: #ffffff;
+  color: #0f172a;
+  border-color: rgba(15, 23, 42, 0.12);
+  box-shadow: -10px 0 40px rgba(15, 23, 42, 0.12);
+}
+
+body.light-theme .drawer-header {
+  background: #f8fafc;
+  border-bottom: 1px solid rgba(15, 23, 42, 0.08);
+}
+
+body.light-theme .drawer-header h3 {
+  color: #0f172a;
+}
+
+body.light-theme .close-drawer-btn {
+  background: #f1f5f9;
+  color: #475569;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+}
+
+body.light-theme .close-drawer-btn:hover {
+  background: #e2e8f0;
+  color: #0f172a;
+}
+
+body.light-theme .drawer-item {
+  background: #f8fafc;
+  border-color: rgba(15, 23, 42, 0.08);
+  color: #334155;
+}
+
+body.light-theme .drawer-item:hover {
+  background: #f1f5f9;
+  color: var(--accent-purple);
+  border-color: rgba(139, 92, 246, 0.3);
+}
+
+body.light-theme .setting-item-box {
+  background: #f8fafc;
+  border-color: rgba(15, 23, 42, 0.08);
+}
+
+body.light-theme .setting-item-box h4 {
+  color: #0f172a;
+}
+
+body.light-theme .segmented-control {
+  background: #e2e8f0;
+  border-color: rgba(15, 23, 42, 0.08);
+}
+
+body.light-theme .segmented-btn {
+  color: #475569;
+}
+
+body.light-theme .segmented-btn:hover {
+  color: #0f172a;
+}
+
+body.light-theme .segmented-btn.active {
+  background: linear-gradient(135deg, var(--accent-purple), var(--accent-indigo));
+  color: #ffffff !important;
+  box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
+}
+
+/* Modals & Forms */
+body.light-theme .modal-header {
+  border-bottom: 1px solid rgba(15, 23, 42, 0.08);
+}
+
+body.light-theme .modal-header h3 {
+  color: #0f172a;
+}
+
+body.light-theme .form-group label {
+  color: #334155;
+}
+
+body.light-theme .form-control,
+body.light-theme input[type="text"],
+body.light-theme input[type="email"],
+body.light-theme input[type="password"],
+body.light-theme input[type="tel"],
+body.light-theme input[type="number"],
+body.light-theme select,
+body.light-theme textarea {
+  background: #f8fafc;
+  border: 1px solid #cbd5e1;
+  color: #0f172a;
+}
+
+body.light-theme .form-control:focus,
+body.light-theme input:focus,
+body.light-theme select:focus,
+body.light-theme textarea:focus {
+  background: #ffffff;
+  border-color: var(--accent-purple);
+  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.15);
+}
+
+body.light-theme .payment-method-card {
+  background: #f8fafc;
+  border-color: #cbd5e1;
+  color: #0f172a;
+}
+
+body.light-theme .payment-method-card.active {
+  background: #faf5ff;
+  border-color: var(--accent-purple);
+  box-shadow: 0 0 15px rgba(139, 92, 246, 0.15);
+}
+
+/* Admin Dashboard in Light Mode */
+body.light-theme .stat-card {
+  background: #ffffff;
+  border-color: rgba(15, 23, 42, 0.08);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+}
+
+body.light-theme .stat-card .stat-title {
+  color: #475569;
+}
+
+body.light-theme .stat-card .stat-value {
+  color: #0f172a;
+}
+
+body.light-theme .admin-table-container {
+  background: #ffffff;
+  border-color: rgba(15, 23, 42, 0.08);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+}
+
+body.light-theme .admin-table th {
+  background: #f1f5f9;
+  color: #334155;
+  border-bottom: 1px solid #cbd5e1;
+}
+
+body.light-theme .admin-table td {
+  color: #0f172a;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+body.light-theme .admin-table tr:hover td {
+  background: #f8fafc;
+}
+
+/* Reviews & Testimonials Section in Light Mode */
+body.light-theme .reviews-section {
+  background: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%);
+}
+
+body.light-theme .review-card {
+  background: #ffffff !important;
+  border: 1px solid rgba(15, 23, 42, 0.08) !important;
+  box-shadow: 0 10px 25px rgba(15, 23, 42, 0.05) !important;
+}
+
+body.light-theme .review-card p {
+  color: #1e293b !important;
+  font-weight: 500 !important;
+}
+
+body.light-theme .reviewer strong {
+  color: #0f172a !important;
+}
+
+body.light-theme .reviewer .verified {
+  color: #059669 !important;
+  background: rgba(16, 185, 129, 0.1) !important;
+  border-color: rgba(16, 185, 129, 0.2) !important;
+}
+
+body.light-theme .reviewer-avatar {
+  background: linear-gradient(135deg, var(--accent-purple), var(--accent-indigo)) !important;
+  color: #ffffff !important;
+}
+
+body.light-theme .stars {
+  color: #f59e0b !important;
+}
+
+/* Trust Section Cards in Light Mode */
+body.light-theme .trust-card {
+  background: #ffffff !important;
+  border: 1px solid rgba(15, 23, 42, 0.08) !important;
+  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.04) !important;
+}
+
+body.light-theme .trust-card h3 {
+  color: #0f172a !important;
+}
+
+body.light-theme .trust-card p {
+  color: #475569 !important;
+}
+
+body.light-theme .trust-icon {
+  background: rgba(139, 92, 246, 0.1) !important;
+  color: #7c3aed !important;
+}
+
+/* Footer & Social Contact Cards in Light Mode */
+body.light-theme .main-footer {
+  background: #ffffff !important;
+  border-top: 1px solid rgba(15, 23, 42, 0.08) !important;
+  color: #334155 !important;
+}
+
+body.light-theme .footer-brand p {
+  color: #475569 !important;
+}
+
+body.light-theme .footer-contact h4 {
+  color: #0f172a !important;
+}
+
+body.light-theme .social-btn {
+  background: #f8fafc !important;
+  border: 1px solid rgba(15, 23, 42, 0.1) !important;
+  box-shadow: 0 4px 15px rgba(15, 23, 42, 0.04) !important;
+}
+
+body.light-theme .social-btn:hover {
+  background: #f1f5f9 !important;
+}
+
+body.light-theme .social-title {
+  color: #0f172a !important;
+}
+
+body.light-theme .social-sub {
+  color: #475569 !important;
+}
+
+body.light-theme .working-hours {
+  color: #334155 !important;
+}
+
+body.light-theme .footer-bottom {
+  background: #f1f5f9 !important;
+  border-top: 1px solid rgba(15, 23, 42, 0.08) !important;
+  color: #475569 !important;
+}
+
+body.light-theme .footer-bottom p {
+  color: #475569 !important;
+}
+
+/* Payment Method Badges in Light Mode */
+body.light-theme .pay-tag {
+  background: #ffffff !important;
+  border: 1px solid rgba(15, 23, 42, 0.12) !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04) !important;
+}
+
+body.light-theme .pay-tag.kuraimi-pay {
+  background: #f0fdf4 !important;
+  color: #15803d !important;
+  border-color: #bbf7d0 !important;
+}
+
+body.light-theme .pay-tag.ewallet-pay {
+  background: #faf5ff !important;
+  color: #7c3aed !important;
+  border-color: #e9d5ff !important;
+}
+
+body.light-theme .pay-tag.mobile-pay {
+  background: #f0f9ff !important;
+  color: #0284c7 !important;
+  border-color: #bae6fd !important;
+}
+
+body.light-theme .pay-tag.cash-pay {
+  background: #fffbeb !important;
+  color: #b45309 !important;
+  border-color: #fef3c7 !important;
+}
+
+/* Cart Items & Drawer in Light Mode */
+body.light-theme .cart-item {
+  background: #f8fafc !important;
+  border-color: rgba(15, 23, 42, 0.08) !important;
+}
+
+body.light-theme .cart-item-title {
+  color: #0f172a !important;
+}
+
+body.light-theme .cart-qty-controls {
+  background: #ffffff !important;
+  border-color: rgba(15, 23, 42, 0.12) !important;
+}
+
+body.light-theme .cart-qty-btn {
+  color: #0f172a !important;
+}
+
+/* Floating WhatsApp Tooltip & Toast Notifications */
+body.light-theme .whatsapp-tooltip {
+  background: #ffffff !important;
+  color: #0f172a !important;
+  border-color: rgba(15, 23, 42, 0.12) !important;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.08) !important;
+}
+
+body.light-theme .toast {
+  background: #ffffff !important;
+  color: #0f172a !important;
+  border-color: rgba(139, 92, 246, 0.3) !important;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.12) !important;
+}
+
+/* ==========================================================================
+   LTR LAYOUT ADJUSTMENTS (FOR ENGLISH MODE)
+   ========================================================================== */
+html[dir="ltr"] .side-drawer-card {
+  right: auto;
+  left: 0;
+  border-left: none;
+  border-right: 1px solid var(--border-glass);
+  transform: translateX(-100%);
+  box-shadow: 10px 0 30px rgba(0, 0, 0, 0.8);
+}
+
+html[dir="ltr"] .whatsapp-fab-container {
+  left: auto;
+  right: 25px;
+  direction: ltr;
+}
+
+html[dir="ltr"] .whatsapp-tooltip {
+  left: auto;
+  right: 0;
+}
+
+html[dir="ltr"] .toast-container {
+  left: auto;
+  right: 25px;
+}
+
+

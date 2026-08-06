@@ -9,6 +9,57 @@ const API_BASE_URL = (window.location.hostname === 'localhost' || window.locatio
   ? `${window.location.protocol}//${window.location.hostname}:${window.location.port || 8080}/api`
   : 'https://manasatistore-production.up.railway.app/api';
 
+const I18N = {
+  ar: {
+    drawer_cats: "أقسام الاشتراكات",
+    cat_all: "جميع الخدمات والاشتراكات",
+    cat_entertainment: "اشتراكات الترفيه وسينما",
+    cat_ai: "الذكاء الاصطناعي والتصميم",
+    cat_gaming: "ألعاب وااشتراكات",
+    cat_sports: "رياضة وبث مباشر",
+    cat_music: "موسيقى وصوتيات",
+    drawer_quick_links: "روابط سريعة للمتجر",
+    trust_title: "ضمان منصتي والتفعيل الرسمي",
+    reviews_title: "آراء وتقييمات المشتركين",
+    support_24: "الدعم الفني وتواصل معنا",
+    payment_methods: "وسائل الدفع المتاحة",
+    admin_panel: "لوحة التحكم والإدارة",
+    settings_title: "إعدادات المتجر والتفضيلات",
+    theme_mode: "مظهر المتجر",
+    dark_mode: "داكن 🌙",
+    light_mode: "نهاري ☀️",
+    language: "لغة العرض",
+    search_placeholder: "ابحث فوري عن اشتراك (نتفليكس، شاهد، ChatGPT، كانفا...)",
+    all_services: "جميع الاشتراكات المتاحة",
+    order_now: "طلب فوري",
+    add_to_cart: "إضافة للسلة",
+  },
+  en: {
+    drawer_cats: "Subscription Categories",
+    cat_all: "All Services & Subscriptions",
+    cat_entertainment: "Entertainment & Cinema",
+    cat_ai: "AI & Design Tools",
+    cat_gaming: "Gaming & Subscriptions",
+    cat_sports: "Sports & Live Stream",
+    cat_music: "Music & Audio",
+    drawer_quick_links: "Quick Navigation Links",
+    trust_title: "Manasati Guarantee & Official Activation",
+    reviews_title: "Subscriber Reviews & Ratings",
+    support_24: "24/7 Technical Support",
+    payment_methods: "Available Payment Methods",
+    admin_panel: "Admin Dashboard",
+    settings_title: "Store Settings & Preferences",
+    theme_mode: "Store Appearance",
+    dark_mode: "Dark 🌙",
+    light_mode: "Light ☀️",
+    language: "Display Language",
+    search_placeholder: "Instant search (Netflix, Shahid, ChatGPT, Canva...)",
+    all_services: "All Available Subscriptions",
+    order_now: "Order Now",
+    add_to_cart: "Add to Cart",
+  }
+};
+
 
 const INITIAL_SERVICES = [
   {
@@ -80,7 +131,11 @@ class ManasatiApp {
     this.searchQuery = '';
     this.sortBy = 'popular';
 
+    this.currentTheme = localStorage.getItem("manasati_theme") || "dark";
+    this.currentLang = localStorage.getItem("manasati_lang") || "ar";
+
     this.initElements();
+    this.initThemeAndLanguage();
     this.bindEvents();
     this.updateAuthUI();
     this.loadServicesFromDB();
@@ -178,6 +233,78 @@ class ManasatiApp {
     this.loggedUserInfo = document.getElementById("logged-user-info");
     this.userDisplayName = document.getElementById("user-display-name");
     this.userRoleBadge = document.getElementById("user-role-badge");
+
+    // Floating WhatsApp Action Button (FAB)
+    this.whatsappFab = document.getElementById("whatsapp-fab");
+  }
+
+  // Initialize saved Theme (Dark/Light) and Language (Arabic/English)
+  initThemeAndLanguage() {
+    this.setTheme(this.currentTheme, false);
+    this.setLanguage(this.currentLang, false);
+  }
+
+  setTheme(theme, notify = true) {
+    this.currentTheme = theme;
+    localStorage.setItem("manasati_theme", theme);
+
+    const darkBtn = document.getElementById("btn-theme-dark");
+    const lightBtn = document.getElementById("btn-theme-light");
+    const badge = document.getElementById("theme-status-badge");
+
+    if (theme === 'light') {
+      document.body.classList.add("light-theme");
+      if (darkBtn) darkBtn.classList.remove("active");
+      if (lightBtn) lightBtn.classList.add("active");
+      if (badge) badge.textContent = "☀️ نهاري";
+      if (notify) this.showToast("تم تفعيل الوضع النهاري ☀️", "info");
+    } else {
+      document.body.classList.remove("light-theme");
+      if (lightBtn) lightBtn.classList.remove("active");
+      if (darkBtn) darkBtn.classList.add("active");
+      if (badge) badge.textContent = "🌙 داكن";
+      if (notify) this.showToast("تم تفعيل الوضع الليلي 🌙", "info");
+    }
+  }
+
+  setLanguage(lang, notify = true) {
+    this.currentLang = lang;
+    localStorage.setItem("manasati_lang", lang);
+
+    const htmlEl = document.documentElement;
+    const arBtn = document.getElementById("btn-lang-ar");
+    const enBtn = document.getElementById("btn-lang-en");
+    const badge = document.getElementById("lang-status-badge");
+
+    if (lang === 'en') {
+      htmlEl.setAttribute("dir", "ltr");
+      htmlEl.setAttribute("lang", "en");
+      if (arBtn) arBtn.classList.remove("active");
+      if (enBtn) enBtn.classList.add("active");
+      if (badge) badge.textContent = "🇬🇧 English";
+      if (notify) this.showToast("Language changed to English 🇬🇧", "info");
+    } else {
+      htmlEl.setAttribute("dir", "rtl");
+      htmlEl.setAttribute("lang", "ar");
+      if (enBtn) enBtn.classList.remove("active");
+      if (arBtn) arBtn.classList.add("active");
+      if (badge) badge.textContent = "🇸🇦 العربية";
+      if (notify) this.showToast("تم تغيير اللغة إلى العربية 🇸🇦", "info");
+    }
+
+    // Apply translations across all elements with data-i18n
+    const dict = I18N[lang] || I18N.ar;
+    document.querySelectorAll("[data-i18n]").forEach(el => {
+      const key = el.getAttribute("data-i18n");
+      if (dict[key]) {
+        el.textContent = dict[key];
+      }
+    });
+
+    // Update search input placeholder
+    if (this.searchInput && dict.search_placeholder) {
+      this.searchInput.placeholder = dict.search_placeholder;
+    }
   }
 
   // Event Listeners Registration
@@ -604,6 +731,8 @@ class ManasatiApp {
         localStorage.setItem("manasati_role", "user");
         if (this.roleAdminBtn) this.roleAdminBtn.style.display = "none";
         if (cartBtn) cartBtn.style.display = "inline-flex";
+        if (this.whatsappFab) this.whatsappFab.style.display = "flex";
+        document.body.classList.remove("admin-active");
         if (!silent) this.showToast("🔒 غير مصرح لك. صفحة الإدارة مخصصة للمسؤول (Admin) فقط.", "error");
         this.openLoginModal('login');
         this.currentRole = 'user';
@@ -617,6 +746,8 @@ class ManasatiApp {
       this.currentRole = 'admin';
       localStorage.setItem("manasati_role", "admin");
       if (cartBtn) cartBtn.style.display = "none"; // Hide Cart button in Admin mode
+      if (this.whatsappFab) this.whatsappFab.style.display = "none"; // Hide WhatsApp FAB in Admin mode
+      document.body.classList.add("admin-active");
       if (this.roleUserBtn) this.roleUserBtn.classList.remove("active");
       if (this.roleAdminBtn) {
         this.roleAdminBtn.classList.add("active");
@@ -631,6 +762,8 @@ class ManasatiApp {
       this.currentRole = 'user';
       localStorage.setItem("manasati_role", "user");
       if (cartBtn) cartBtn.style.display = "inline-flex"; // Show Cart button in Storefront mode
+      if (this.whatsappFab) this.whatsappFab.style.display = "flex"; // Show WhatsApp FAB in Visitor/Customer mode
+      document.body.classList.remove("admin-active");
       if (this.roleAdminBtn) this.roleAdminBtn.classList.remove("active");
       if (this.roleUserBtn) this.roleUserBtn.classList.add("active");
       if (this.adminView) this.adminView.style.display = "none";
