@@ -1707,26 +1707,31 @@ class ManasatiApp {
     }
   }
 
-  // TOAST NOTIFICATIONS SYSTEM
+  // TOAST NOTIFICATIONS SYSTEM (RESPONSIVE MULTI-DEVICE COMPATIBLE)
   showToast(message, type = "info") {
     const container = document.getElementById("toast-container");
     if (!container) return;
 
+    // Keep max 3 active toasts at once to prevent screen clutter
+    while (container.children.length >= 3) {
+      container.removeChild(container.firstChild);
+    }
+
     const toast = document.createElement("div");
     toast.className = `toast toast-${type}`;
 
-    let iconClass = "fa-circle-info";
-    if (type === "success") iconClass = "fa-circle-check";
-    if (type === "error") iconClass = "fa-triangle-exclamation";
+    let iconClass = "fa-circle-info text-cyan";
+    if (type === "success") iconClass = "fa-circle-check text-green";
+    if (type === "error") iconClass = "fa-triangle-exclamation text-pink";
 
-    toast.innerHTML = `<i class="fa-solid ${iconClass}"></i> <span>${message}</span>`;
+    toast.innerHTML = `<i class="fa-solid ${iconClass}"></i><span>${message}</span>`;
     container.appendChild(toast);
 
     setTimeout(() => {
       toast.style.opacity = "0";
-      toast.style.transform = "translateX(-100%)";
-      setTimeout(() => toast.remove(), 300);
-    }, 3500);
+      toast.style.transform = "translateY(16px) scale(0.95)";
+      setTimeout(() => toast.remove(), 350);
+    }, 3800);
   }
 
   render() {
