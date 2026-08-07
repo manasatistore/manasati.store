@@ -9,7 +9,7 @@ const isLocalHost = (!window.location.hostname || window.location.hostname === '
 
 const API_BASE_URL = isLocalHost
   ? `http://127.0.0.1:8080/api`
-  : 'https://manasatistore-production.up.railway.app/api';
+  : `${window.location.origin}/api`;
 
 const I18N = {
   ar: {
