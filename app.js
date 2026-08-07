@@ -8,7 +8,7 @@
 const isLocalHost = (!window.location.hostname || window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' || window.location.protocol === 'file:');
 
 const API_BASE_URL = isLocalHost
-  ? `http://127.0.0.1:8080/api`
+  ? `http://127.0.0.1:5005/api`
   : `${window.location.origin}/api`;
 
 const I18N = {
