@@ -331,6 +331,10 @@ class ManasatiApp {
         });
       });
 
+      this.searchInput.addEventListener("focus", () => {
+        this.renderLiveSearchResults();
+      });
+
       this.searchInput.addEventListener("keydown", (e) => {
         if (e.key === "Escape") {
           this.resetFilters();
@@ -435,7 +439,7 @@ class ManasatiApp {
 
     const isVisible = menu.classList.contains("show");
     document.querySelectorAll(".dropdown-menu-card").forEach(m => m.classList.remove("show"));
-    
+
     if (!isVisible) {
       menu.classList.add("show");
     }
@@ -445,7 +449,7 @@ class ManasatiApp {
   selectCategoryFromDropdown(category, event) {
     if (event) event.preventDefault();
     this.filterCategory(category);
-    
+
     const menu = document.getElementById("categories-dropdown-menu");
     if (menu) menu.classList.remove("show");
   }
@@ -824,7 +828,7 @@ class ManasatiApp {
     }
 
     this.activeCategory = category;
-    
+
     // Update Cat Pills Active state
     const catPills = document.querySelectorAll(".cat-pill");
     catPills.forEach(pill => {
@@ -839,6 +843,32 @@ class ManasatiApp {
     if (servicesSec) {
       servicesSec.scrollIntoView({ behavior: "smooth", block: "start" });
     }
+  }
+
+  // HTML escaping helper for security and safety
+  escapeHTML(str) {
+    if (!str) return '';
+    return str.toString()
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+  }
+
+  // Quick search tag handler
+  quickSearchTag(keyword) {
+    if (!this.searchInput) return;
+    this.searchInput.value = keyword;
+    this.searchQuery = keyword;
+    if (this.clearSearchBtn) this.clearSearchBtn.style.display = "block";
+    this.activeCategory = 'all';
+    document.querySelectorAll(".cat-pill").forEach(p => {
+      p.classList.toggle("active", p.getAttribute("data-category") === 'all');
+    });
+    this.renderLiveSearchResults();
+    this.renderServices();
+    this.searchInput.focus();
   }
 
   // Arabic Text Normalizer for ultra-accurate instant search matching
@@ -856,20 +886,97 @@ class ManasatiApp {
       .trim();
   }
 
-  // Highlight matched search term in title
+  // Calculate Search Relevance Score (Smart Search Ranking Engine)
+  calculateRelevanceScore(srv, query) {
+    if (!query) return 0;
+
+    const qNorm = this.normalizeArabicText(query);
+    if (!qNorm) return 0;
+
+    const qWords = qNorm.split(/\s+/).filter(Boolean);
+    if (qWords.length === 0) return 0;
+
+    const titleNorm = this.normalizeArabicText(srv.title || '');
+    const descNorm = this.normalizeArabicText(srv.description || '');
+    const badgeNorm = this.normalizeArabicText(srv.badge || '');
+    const catLabelNorm = this.normalizeArabicText(this.getCategoryLabel(srv.category));
+
+    let score = 0;
+
+    // 1. Title matches (highest priority)
+    const titleWords = titleNorm.split(/\s+/).filter(Boolean);
+
+    // Exact title match or starts with full query
+    if (titleNorm === qNorm) {
+      score += 5000;
+    } else if (titleNorm.startsWith(qNorm)) {
+      score += 3500;
+    }
+
+    // Word-level title checks
+    qWords.forEach(qw => {
+      let matchedInTitleWord = false;
+      titleWords.forEach((tw, idx) => {
+        if (tw === qw) {
+          score += 2500 - (idx * 50); // Exact word match, bonus if earlier word
+          matchedInTitleWord = true;
+        } else if (tw.startsWith(qw)) {
+          score += 1800 - (idx * 30); // Prefix word match
+          matchedInTitleWord = true;
+        } else if (tw.includes(qw)) {
+          score += 1000;
+          matchedInTitleWord = true;
+        }
+      });
+
+      const pos = titleNorm.indexOf(qw);
+      if (pos !== -1) {
+        if (!matchedInTitleWord) score += 600;
+        score += Math.max(0, 300 - pos * 10);
+      }
+    });
+
+    // 2. Badge & Category matches
+    if (badgeNorm && badgeNorm.includes(qNorm)) score += 400;
+    if (catLabelNorm && catLabelNorm.includes(qNorm)) score += 350;
+
+    // 3. Description matches (lower weight, standalone word match priority)
+    const descWords = descNorm.split(/\s+/).filter(Boolean);
+    qWords.forEach(qw => {
+      let descWordMatch = false;
+      descWords.forEach(dw => {
+        if (dw === qw) {
+          score += 120;
+          descWordMatch = true;
+        } else if (dw.startsWith(qw)) {
+          score += 60;
+          descWordMatch = true;
+        }
+      });
+      if (descNorm.includes(qw) && !descWordMatch) {
+        score += 15; // Low score for substring match inside longer description words
+      }
+    });
+
+    return score;
+  }
+
+  // Highlight matched search term in text cleanly without breaking HTML
   highlightMatch(text, query) {
     if (!text) return '';
-    if (!query) return text;
-    const qNorm = this.normalizeArabicText(query);
-    if (!qNorm) return text;
+    if (!query || !query.trim()) return this.escapeHTML(text);
 
-    const words = query.trim().split(/\s+/).filter(Boolean);
-    let result = text;
-    words.forEach(w => {
-      const reg = new RegExp(`(${w})`, 'gi');
-      result = result.replace(reg, '<span class="search-highlight">$1</span>');
-    });
-    return result;
+    const qNorm = this.normalizeArabicText(query);
+    if (!qNorm) return this.escapeHTML(text);
+
+    const parts = text.split(/(\s+)/);
+    return parts.map(part => {
+      const partNorm = this.normalizeArabicText(part);
+      if (partNorm && (partNorm.includes(qNorm) || qNorm.includes(partNorm))) {
+        return `<span class="search-highlight">${this.escapeHTML(part)}</span>`;
+      }
+      return this.escapeHTML(part);
+    }).join('');
   }
 
   // Render Instant Floating Live Search Overlay Results
@@ -878,23 +985,36 @@ class ManasatiApp {
     if (!liveResultsContainer) return;
 
     const qNorm = this.normalizeArabicText(this.searchQuery);
+
+    // If query is empty, display popular trending search tags
     if (!qNorm) {
-      liveResultsContainer.style.display = 'none';
-      liveResultsContainer.innerHTML = '';
+      liveResultsContainer.style.display = 'block';
+      liveResultsContainer.innerHTML = `
+        <div class="live-search-header">
+          <span><i class="fa-solid fa-fire text-amber"></i> الكلمات الأكثر بحثاً وتداولا</span>
+        </div>
+        <div class="quick-search-tags" style="display:flex; flex-wrap:wrap; gap:6px; padding:6px 0 10px 0;">
+          <span class="quick-search-tag" onclick="app.quickSearchTag('شاهد VIP')">🎬 شاهد VIP</span>
+          <span class="quick-search-tag" onclick="app.quickSearchTag('نتفليكس')">🎥 نتفليكس 4K</span>
+          <span class="quick-search-tag" onclick="app.quickSearchTag('ChatGPT')">🤖 ChatGPT Plus</span>
+          <span class="quick-search-tag" onclick="app.quickSearchTag('كانفا')">🎨 كانفا Pro</span>
+          <span class="quick-search-tag" onclick="app.quickSearchTag('يوتيوب')">▶️ يوتيوب بريميوم</span>
+          <span class="quick-search-tag" onclick="app.quickSearchTag('TOD')">⚽ TOD مباريات</span>
+        </div>
+      `;
       return;
     }
 
-    const matches = this.services.filter(srv => {
-      const titleNorm = this.normalizeArabicText(srv.title);
-      const descNorm = this.normalizeArabicText(srv.description);
-      const badgeNorm = this.normalizeArabicText(srv.badge);
-      const catLabelNorm = this.normalizeArabicText(this.getCategoryLabel(srv.category));
+    // Rank services strictly by calculated relevance score
+    const scoredMatches = this.services
+      .map(srv => ({
+        service: srv,
+        score: this.calculateRelevanceScore(srv, this.searchQuery)
+      }))
+      .filter(item => item.score > 0)
+      .sort((a, b) => b.score - a.score);
 
-      return titleNorm.includes(qNorm) ||
-             descNorm.includes(qNorm) ||
-             badgeNorm.includes(qNorm) ||
-             catLabelNorm.includes(qNorm);
-    }).slice(0, 6); // Top 6 instant matches for maximum performance
+    const matches = scoredMatches.map(item => item.service).slice(0, 6);
 
     liveResultsContainer.style.display = 'block';
 
@@ -902,7 +1022,7 @@ class ManasatiApp {
       liveResultsContainer.innerHTML = `
         <div class="live-search-empty">
           <i class="fa-solid fa-magnifying-glass" style="font-size:24px; margin-bottom:8px; display:block; color:var(--text-muted);"></i>
-          لا توجد خدمات تطابق "<strong>${this.searchQuery}</strong>"
+          لا توجد خدمات تطابق "<strong>${this.escapeHTML(this.searchQuery)}</strong>"
         </div>
       `;
       return;
@@ -911,17 +1031,17 @@ class ManasatiApp {
     liveResultsContainer.innerHTML = `
       <div class="live-search-header">
         <span><i class="fa-solid fa-bolt text-cyan"></i> نتائج البحث السريعة (${matches.length})</span>
-        <span style="font-weight: 500; font-size: 11px;">اضغط للاكتشاف الفوري</span>
+        <span style="font-weight: 500; font-size: 11px;">مرتبة بالأكثر دقة</span>
       </div>
       <div class="live-search-list">
         ${matches.map(srv => `
           <div class="live-search-item" onclick="app.selectLiveSearchResult('${srv.id}')">
-            <img src="${srv.image}" alt="${srv.title}" class="live-search-img" onerror="this.src='https://images.unsplash.com/photo-1574375927938-d5a98e8ffe85?w=500&auto=format&fit=crop&q=80'">
+            <img src="${srv.image}" alt="${this.escapeHTML(srv.title)}" class="live-search-img" onerror="this.src='https://images.unsplash.com/photo-1574375927938-d5a98e8ffe85?w=500&auto=format&fit=crop&q=80'">
             <div class="live-search-info">
               <div class="live-search-title">${this.highlightMatch(srv.title, this.searchQuery)}</div>
               <div class="live-search-meta">
                 <span class="live-search-badge">${this.getCategoryLabel(srv.category)}</span>
-                <span><i class="fa-solid fa-bolt text-cyan"></i> ${srv.delivery}</span>
+                <span><i class="fa-solid fa-bolt text-cyan"></i> ${this.escapeHTML(srv.delivery)}</span>
               </div>
             </div>
             <div class="live-search-price">${srv.price} ر.س</div>
@@ -963,33 +1083,39 @@ class ManasatiApp {
     this.renderServices();
   }
 
-  // Render Customer Services Grid with Instant Normalized Search Matching
+  // Render Customer Services Grid with Smart Relevance Search Matching
   renderServices() {
     const qNorm = this.normalizeArabicText(this.searchQuery);
 
-    let filtered = this.services.filter(srv => {
-      const matchCat = this.activeCategory === 'all' || srv.category === this.activeCategory;
-      if (!matchCat) return false;
+    let filtered = [];
 
-      if (!qNorm) return true;
+    if (qNorm) {
+      // Calculate relevance score and filter items with score > 0
+      filtered = this.services
+        .map(srv => {
+          const matchCat = this.activeCategory === 'all' || srv.category === this.activeCategory;
+          const score = matchCat ? this.calculateRelevanceScore(srv, this.searchQuery) : 0;
+          return { service: srv, score };
+        })
+        .filter(item => item.score > 0)
+        .sort((a, b) => {
+          if (b.score !== a.score) return b.score - a.score;
+          if (this.sortBy === 'price-asc') return a.service.price - b.service.price;
+          if (this.sortBy === 'price-desc') return b.service.price - a.service.price;
+          return 0;
+        })
+        .map(item => item.service);
+    } else {
+      filtered = this.services.filter(srv => {
+        return this.activeCategory === 'all' || srv.category === this.activeCategory;
+      });
 
-      const titleNorm = this.normalizeArabicText(srv.title);
-      const descNorm = this.normalizeArabicText(srv.description);
-      const badgeNorm = this.normalizeArabicText(srv.badge);
-      const catLabelNorm = this.normalizeArabicText(this.getCategoryLabel(srv.category));
-
-      return titleNorm.includes(qNorm) ||
-             descNorm.includes(qNorm) ||
-             badgeNorm.includes(qNorm) ||
-             catLabelNorm.includes(qNorm);
-    });
-
-    // Apply Sorting
-    filtered.sort((a, b) => {
-      if (this.sortBy === 'price-asc') return a.price - b.price;
-      if (this.sortBy === 'price-desc') return b.price - a.price;
-      return 0;
-    });
+      filtered.sort((a, b) => {
+        if (this.sortBy === 'price-asc') return a.price - b.price;
+        if (this.sortBy === 'price-desc') return b.price - a.price;
+        return 0;
+      });
+    }
 
     if (this.servicesCountBadge) {
       this.servicesCountBadge.textContent = `${filtered.length} خدمات`;
@@ -1008,14 +1134,14 @@ class ManasatiApp {
     this.servicesGrid.innerHTML = filtered.map(srv => `
       <div class="product-card" onclick="app.openProductModal('${srv.id}')" style="cursor: pointer;">
         <div class="card-image-wrap">
-          <img src="${srv.image}" alt="${srv.title}" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1574375927938-d5a98e8ffe85?w=500&auto=format&fit=crop&q=80'">
-          ${srv.badge ? `<span class="card-badge">${srv.badge}</span>` : ''}
-          <span class="card-delivery-tag"><i class="fa-solid fa-bolt"></i> ${srv.delivery}</span>
+          <img src="${srv.image}" alt="${this.escapeHTML(srv.title)}" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1574375927938-d5a98e8ffe85?w=500&auto=format&fit=crop&q=80'">
+          ${srv.badge ? `<span class="card-badge">${this.escapeHTML(srv.badge)}</span>` : ''}
+          <span class="card-delivery-tag"><i class="fa-solid fa-bolt"></i> ${this.escapeHTML(srv.delivery)}</span>
         </div>
         <div class="card-content">
           <span class="card-category">${this.getCategoryLabel(srv.category)}</span>
-          <h3 class="card-title">${srv.title}</h3>
-          <div class="card-period"><i class="fa-regular fa-clock"></i> المدة: ${srv.period}</div>
+          <h3 class="card-title">${this.highlightMatch(srv.title, this.searchQuery)}</h3>
+          <div class="card-period"><i class="fa-regular fa-clock"></i> المدة: ${this.escapeHTML(srv.period)}</div>
           <div class="card-price-row" style="margin-top:12px; display:flex; flex-direction:column; gap:10px;">
             <div class="price-wrapper">
               <span class="current-price">${srv.price} <small>ر.س</small></span>
@@ -1300,7 +1426,7 @@ class ManasatiApp {
 
     const custPhone = countryCode ? `${countryCode} ${rawPhone}` : rawPhone;
     const custEmail = document.getElementById("cust-email").value.trim();
-    
+
     const payMethodEl = document.querySelector("input[name='pay-method']:checked");
     if (!payMethodEl) {
       this.showToast("⚠️ يرجى اختيار وسيلة الدفع المناسبة للطلب أولاً", "error");
